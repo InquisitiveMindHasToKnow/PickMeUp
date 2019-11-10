@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mainbackground"
     tools:context=".activities.MainActivity">
 
     <TextView
@@ -13,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Good Morning"
         android:textSize="32sp"
+        android:textColor="#36005F"
         android:textStyle="bold"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,6 +28,7 @@
         android:text="Alexander"
         android:textStyle="bold"
         android:textSize="32sp"
+        android:textColor="#36005F"
         android:layout_marginBottom="24dp"
         app:layout_constraintTop_toBottomOf="@id/greeting_textview"
         app:layout_constraintBottom_toTopOf="@id/quote_cardview"
@@ -41,8 +42,8 @@
         android:layout_height="240dp"
         android:layout_marginTop="48dp"
         app:cardCornerRadius="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintTop_toBottomOf="@id/user_name_textview"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -52,6 +53,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#36005F"
             android:layout_gravity="center_horizontal"
             >
 
@@ -64,7 +66,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="16dp"
                 android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                android:textSize="24sp"
+                android:textSize="16sp"
+                android:textColor="#FFF"
                 android:textStyle="italic"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -76,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cristiano Ronaldo"
+                android:textColor="#FFF"
                 android:textSize="24sp"
                 android:textStyle="italic|bold"
                 android:layout_marginEnd="16dp"

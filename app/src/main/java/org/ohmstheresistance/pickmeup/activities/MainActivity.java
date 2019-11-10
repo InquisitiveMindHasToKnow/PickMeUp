@@ -1,5 +1,7 @@
 package org.ohmstheresistance.pickmeup.activities;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,8 @@ import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         quotesList = new ArrayList<>();
 
+        getQuoteData();
+
+    }
+
+    private void getQuoteData(){
+
         Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
         QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
         quotesService.getQuotes().enqueue(new Callback<List<Quotes>>() {
@@ -59,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 quoteTextView.setText(quoteToDisplay.getQuote());
                 saidByTextView.setText(quoteToDisplay.getSaidby());
 
+                changeQuote();
 
             }
 
@@ -70,5 +81,19 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
     }
+
+    private void changeQuote(){
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            getQuoteData();
+            }
+        },10000);
+    }
+
+
 }
