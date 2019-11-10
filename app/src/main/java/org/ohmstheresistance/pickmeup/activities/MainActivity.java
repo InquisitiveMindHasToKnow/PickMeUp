@@ -1,10 +1,17 @@
 package org.ohmstheresistance.pickmeup.activities;
 
-import android.content.Intent;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
+
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,8 +23,7 @@ import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Quotes> quotesList;
     private TextView quoteTextView;
     private TextView saidByTextView;
+    private CardView quoteCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         quoteTextView = findViewById(R.id.chosen_quote_textview);
         saidByTextView = findViewById(R.id.quote_said_by_textview);
+        quoteCardView = findViewById(R.id.quote_cardview);
 
         quotesList = new ArrayList<>();
 
@@ -90,7 +98,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-            getQuoteData();
+                //quoteCardView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade));
+
+                final ObjectAnimator quoteCardObjectAnimator = ObjectAnimator.ofFloat(quoteCardView, "scaleX", 1f, 0f);
+                final ObjectAnimator quoteCardObjectAnimator1 = ObjectAnimator.ofFloat(quoteCardView, "scaleX", 0f, 1f);
+                quoteCardObjectAnimator.setInterpolator(new DecelerateInterpolator());
+                quoteCardObjectAnimator1.setInterpolator(new AccelerateDecelerateInterpolator());
+                quoteCardObjectAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        quoteCardObjectAnimator.setDuration(1000);
+                        quoteCardObjectAnimator1.setDuration(1000);
+
+                        quoteCardObjectAnimator1.start();
+                    }
+                });
+                quoteCardObjectAnimator.start();
+
+
+                getQuoteData();
             }
         },10000);
     }
