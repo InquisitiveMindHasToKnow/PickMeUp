@@ -3,14 +3,18 @@ package org.ohmstheresistance.pickmeup.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 
+import android.view.MenuItem;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,13 +34,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG = "Quotes.TAG";
     private List<Quotes> quotesList;
     private TextView quoteTextView;
     private TextView saidByTextView;
     private CardView quoteCardView;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         quoteTextView = findViewById(R.id.chosen_quote_textview);
         saidByTextView = findViewById(R.id.quote_said_by_textview);
         quoteCardView = findViewById(R.id.quote_cardview);
+
+        bottomNavigationView = findViewById(R.id.nav_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+      //  bottomNavigationView.setBackgroundColor(Color.parseColor("#F7E633"));
 
         quotesList = new ArrayList<>();
 
@@ -123,5 +132,36 @@ public class MainActivity extends AppCompatActivity {
         },10000);
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment clickedNavTabFragment;
+
+            int mMenuId = item.getItemId();
+
+
+            switch (mMenuId) {
+                case R.id.navigation_home:
+//                clickedNavTabFragment = new UserProfileFragment();
+//                inflateFragment(clickedNavTabFragment);
+                    break;
+
+                case R.id.navigation_create:
+
+//                clickedNavTabFragment = new ViewAllPrivateMessagesFragment();
+//                inflateFragment(clickedNavTabFragment);
+                    break;
+
+                case R.id.navigation_favorites:
+
+//                clickedNavTabFragment = new UserViewPagerFragment();
+//                inflateFragment(clickedNavTabFragment);
+                    break;
+
+            }
+
+            return true;
+        }
+    };
 
 }
