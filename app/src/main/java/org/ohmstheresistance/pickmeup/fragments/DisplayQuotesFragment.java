@@ -25,6 +25,7 @@ import org.ohmstheresistance.pickmeup.network.QuotesService;
 import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -41,6 +42,7 @@ public class DisplayQuotesFragment extends Fragment {
     private List<Quotes> quotesList;
     private TextView quoteTextView;
     private TextView saidByTextView;
+    private TextView greetingTextView;
     private CardView quoteCardView;
 
     public DisplayQuotesFragment() {
@@ -56,6 +58,7 @@ public class DisplayQuotesFragment extends Fragment {
         quoteTextView = rootView.findViewById(R.id.chosen_quote_textview);
         saidByTextView = rootView.findViewById(R.id.quote_said_by_textview);
         quoteCardView = rootView.findViewById(R.id.quote_cardview);
+        greetingTextView = rootView.findViewById(R.id.greeting_textview);
 
         return rootView;
     }
@@ -65,6 +68,22 @@ public class DisplayQuotesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getQuoteData();
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay >= 0 && timeOfDay < 12){
+            greetingTextView.setText(getString(R.string.good_morning));
+
+        }else if(timeOfDay >= 12 && timeOfDay < 16){
+            greetingTextView.setText(getString(R.string.good_afternoon));
+
+        }else if(timeOfDay >= 16 && timeOfDay < 21){
+            greetingTextView.setText(getString(R.string.good_evening));
+
+        }else if(timeOfDay >= 21 && timeOfDay < 24){
+            greetingTextView.setText(getString(R.string.good_night));
+        }
     }
 
 
@@ -89,7 +108,7 @@ public class DisplayQuotesFragment extends Fragment {
                 Random randomNumber = new Random();
                 Quotes quoteToDisplay = quotesList.get(randomNumber.nextInt(quotesList.size() - 1) + 1);
 
-                Log.d(TAG, quotesList.get(8).getQuote());
+                Log.d(TAG, quotesList.get(6).getQuote());
 
                 quoteTextView.setText(quoteToDisplay.getQuote());
                 saidByTextView.setText(quoteToDisplay.getSaidby());
@@ -101,8 +120,8 @@ public class DisplayQuotesFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Quotes>> call, Throwable t) {
 
-                Toast.makeText(getContext(), "Country Retrofit Call Failed", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Country Retrofit Call Failed: " + t.getMessage());
+                Toast.makeText(getContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Quote Retrofit Call Failed: " + t.getMessage());
             }
 
         });
