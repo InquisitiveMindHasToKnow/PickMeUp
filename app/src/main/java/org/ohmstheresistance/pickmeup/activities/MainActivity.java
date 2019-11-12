@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
+import org.ohmstheresistance.pickmeup.fragments.FavoriteMotivationalQuotes;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -61,14 +63,14 @@ public class MainActivity extends AppCompatActivity  {
 
                 case R.id.navigation_create:
 
-//                clickedNavTabFragment = new ViewAllPrivateMessagesFragment();
-//                inflateFragment(clickedNavTabFragment);
+                clickedNavTabFragment = new CreateYourOwnMotivationFragment();
+                inflateFragment(clickedNavTabFragment);
                     break;
 
                 case R.id.navigation_favorites:
 
-//                clickedNavTabFragment = new UserViewPagerFragment();
-//                inflateFragment(clickedNavTabFragment);
+                clickedNavTabFragment = new FavoriteMotivationalQuotes();
+                inflateFragment(clickedNavTabFragment);
                     break;
 
             }
