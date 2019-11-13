@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.pickmeup.R;
@@ -29,7 +30,8 @@ public class CreateYourOwnMotivationFragment extends Fragment {
 
     private View rootView;
     private FloatingActionButton speechFab;
-    private EditText speechTextView;
+    private EditText speechEditText;
+    private TextView dateMadeTextView;
     private Button saveButton;
 
     public CreateYourOwnMotivationFragment() {
@@ -44,8 +46,9 @@ public class CreateYourOwnMotivationFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_create_your_own_quote, container, false);
 
         speechFab = rootView.findViewById(R.id.activate_speech_fab_button);
-        speechTextView = rootView.findViewById(R.id.user_speech_edittext);
+        speechEditText = rootView.findViewById(R.id.user_speech_edittext);
         saveButton = rootView.findViewById(R.id.save_speech_button);
+        dateMadeTextView = rootView.findViewById(R.id.date_quote_was_made);
 
         return rootView;
     }
@@ -53,6 +56,10 @@ public class CreateYourOwnMotivationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+            dateMadeTextView.setVisibility(View.GONE);
+            saveButton.setVisibility(View.GONE);
 
         speechFab.setOnClickListener(new View.OnClickListener() {
 
@@ -66,7 +73,8 @@ public class CreateYourOwnMotivationFragment extends Fragment {
 
                 try {
                     startActivityForResult(speechToTextIntent, RESULT_SPEECH);
-                    speechTextView.setText("");
+                    speechEditText.setText("");
+
                 } catch (ActivityNotFoundException a) {
                     Toast t = Toast.makeText(getContext(),
                             "Opps! Your device doesn't support Speech to Text",
@@ -75,6 +83,7 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                 }
             }
         });
+
 
 
     }
@@ -92,7 +101,9 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                     ArrayList<String> text = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    speechTextView.setText(text.get(0));
+                    speechEditText.setText(text.get(0));
+                    dateMadeTextView.setVisibility(View.VISIBLE);
+                    saveButton.setVisibility(View.VISIBLE);
                 }
                 break;
             }
