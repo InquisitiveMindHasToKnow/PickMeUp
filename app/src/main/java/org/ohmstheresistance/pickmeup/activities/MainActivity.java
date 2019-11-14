@@ -11,12 +11,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
 import org.ohmstheresistance.pickmeup.fragments.FavoriteMotivationalQuotes;
 
+import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.quoteTextView;
+import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.saidByTextView;
 
-public class MainActivity extends AppCompatActivity  {
+
+public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -78,5 +82,13 @@ public class MainActivity extends AppCompatActivity  {
             return true;
         }
     };
+
+
+    @Override
+    public void updateMainQuoteDisplayed(String quote, String saidBy) {
+
+        quoteTextView.setText(quote);
+        saidByTextView.setText(saidBy);
+    }
 
 }
