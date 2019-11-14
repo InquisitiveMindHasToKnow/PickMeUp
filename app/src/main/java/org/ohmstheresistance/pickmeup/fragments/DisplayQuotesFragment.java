@@ -29,6 +29,7 @@ import org.ohmstheresistance.pickmeup.recyclerview.QuotesAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -43,8 +44,8 @@ public class DisplayQuotesFragment extends Fragment {
     private View rootView;
     private static final String TAG = "Quotes.TAG";
     private List<Quotes> quotesList;
-    private TextView quoteTextView;
-    private TextView saidByTextView;
+    public static TextView quoteTextView;
+    public static TextView saidByTextView;
     private TextView greetingTextView;
     private CardView quoteCardView;
 
@@ -107,6 +108,7 @@ public class DisplayQuotesFragment extends Fragment {
             public void onResponse(Call<List<Quotes>> call, Response<List<Quotes>> response) {
 
                 quotesList = response.body();
+                Collections.shuffle(quotesList);
 
                 if (quotesList == null) {
                     Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
@@ -148,8 +150,6 @@ public class DisplayQuotesFragment extends Fragment {
             @Override
             public void run() {
 
-                //quoteCardView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade));
-
                 final ObjectAnimator quoteCardObjectAnimator = ObjectAnimator.ofFloat(quoteCardView, "scaleX", 1f, 0f);
                 final ObjectAnimator quoteCardObjectAnimator1 = ObjectAnimator.ofFloat(quoteCardView, "scaleX", 0f, 1f);
                 quoteCardObjectAnimator.setInterpolator(new DecelerateInterpolator());
@@ -177,5 +177,7 @@ public class DisplayQuotesFragment extends Fragment {
 
         super.onDetach();
     }
+
+
 }
 

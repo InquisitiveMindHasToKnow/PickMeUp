@@ -32,8 +32,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull QuotesViewHolder quotesViewHolder, int i) {
 
-        final Quotes country = quotesList.get(i);
-        quotesViewHolder.onBind(country);
+        final Quotes quotes = quotesList.get(i);
+        quotesViewHolder.onBind(quotes);
     }
 
     @Override
@@ -46,5 +46,10 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesViewHolder> {
             return quotesList.size();
         }
 
+    }
+
+    public void setData(List<Quotes> newQuotesList) {
+        this.quotesList = newQuotesList;
+        notifyDataSetChanged();
     }
 }

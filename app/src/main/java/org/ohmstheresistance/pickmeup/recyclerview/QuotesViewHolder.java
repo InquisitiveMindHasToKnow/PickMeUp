@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.model.Quotes;
 
 public class QuotesViewHolder extends RecyclerView.ViewHolder {
@@ -22,10 +23,23 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(final Quotes quotes) {
 
-        String upcomingQuote = quotes.getQuote();
-        String upcomingQuoteSaidBy = quotes.getSaidby();
+        final String upcomingQuote = quotes.getQuote();
+        final String upcomingQuoteSaidBy = quotes.getSaidby();
 
         upcomingQuoteTextView.setText(upcomingQuote);
         upcomingQuoteSaidByTextView.setText(upcomingQuoteSaidBy);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                ChangeCardDisplayInterface changeCardDisplayInterface = (ChangeCardDisplayInterface) itemView.getContext();
+                changeCardDisplayInterface.updateMainQuoteDisplayed(upcomingQuote, upcomingQuoteSaidBy);
+
+                    // itemView.startAnimation(AnimationUtils.loadAnimation(itemView.getContext(), R.anim.fade));
+                }
+        });
     }
+
 }
