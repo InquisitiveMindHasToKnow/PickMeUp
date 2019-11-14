@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.model.Quotes;
 import org.ohmstheresistance.pickmeup.network.QuotesService;
 import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
+import org.ohmstheresistance.pickmeup.recyclerview.QuotesAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +48,9 @@ public class DisplayQuotesFragment extends Fragment {
     private TextView greetingTextView;
     private CardView quoteCardView;
 
+    private RecyclerView upcomingQuotesRecyclerView;
+    private QuotesAdapter quotesAdapter;
+
     public DisplayQuotesFragment() {
         // Required empty public constructor
     }
@@ -59,6 +65,7 @@ public class DisplayQuotesFragment extends Fragment {
         saidByTextView = rootView.findViewById(R.id.quote_said_by_textview);
         quoteCardView = rootView.findViewById(R.id.quote_cardview);
         greetingTextView = rootView.findViewById(R.id.greeting_textview);
+        upcomingQuotesRecyclerView = rootView.findViewById(R.id.upcoming_quotes_recycler_view);
 
         return rootView;
     }
@@ -91,6 +98,7 @@ public class DisplayQuotesFragment extends Fragment {
 
         quotesList = new ArrayList<>();
 
+
         Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
         QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
         quotesService.getQuotes().enqueue(new Callback<List<Quotes>>() {
@@ -105,6 +113,11 @@ public class DisplayQuotesFragment extends Fragment {
                     return;
                 }
 
+                quotesAdapter = new QuotesAdapter(quotesList);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                upcomingQuotesRecyclerView.setLayoutManager(gridLayoutManager);
+                upcomingQuotesRecyclerView.setAdapter(quotesAdapter);
+
                 Random randomNumber = new Random();
                 Quotes quoteToDisplay = quotesList.get(randomNumber.nextInt(quotesList.size() - 1) + 1);
 
@@ -114,6 +127,7 @@ public class DisplayQuotesFragment extends Fragment {
                 saidByTextView.setText(quoteToDisplay.getSaidby());
 
                 changeQuote();
+
 
             }
 
