@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        //  bottomNavigationView.setBackgroundColor(Color.parseColor("#F7E633"));
 
         loadBeginningFragment();
     }

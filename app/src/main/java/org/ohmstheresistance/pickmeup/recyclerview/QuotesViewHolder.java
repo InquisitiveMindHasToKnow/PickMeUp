@@ -3,6 +3,7 @@ package org.ohmstheresistance.pickmeup.recyclerview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
@@ -37,7 +38,8 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
                 ChangeCardDisplayInterface changeCardDisplayInterface = (ChangeCardDisplayInterface) itemView.getContext();
                 changeCardDisplayInterface.updateMainQuoteDisplayed(upcomingQuote, upcomingQuoteSaidBy);
 
-                    // itemView.startAnimation(AnimationUtils.loadAnimation(itemView.getContext(), R.anim.fade));
+
+                     itemView.startAnimation(AnimationUtils.loadAnimation(itemView.getContext(), R.anim.scaleup));
                 }
         });
     }
