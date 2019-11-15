@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
 
+import java.util.Calendar;
+
 
 public class CreateYourOwnMotivationFragment extends Fragment {
 
@@ -39,8 +41,8 @@ public class CreateYourOwnMotivationFragment extends Fragment {
 
         createdQuoteCardView = rootView.findViewById(R.id.create_quote_cardview);
         createQuoteFab = rootView.findViewById(R.id.add_quote_fab_button);
-        quoteEditText = rootView.findViewById(R.id.user_speech_edittext);
-        saveButton = rootView.findViewById(R.id.save_speech_button);
+        quoteEditText = rootView.findViewById(R.id.created_quote_edittext);
+        saveButton = rootView.findViewById(R.id.save_quote_button);
         dateMadeTextView = rootView.findViewById(R.id.date_quote_was_made);
 
         return rootView;
@@ -58,7 +60,16 @@ public class CreateYourOwnMotivationFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+                Calendar cal = Calendar.getInstance();
+                final int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                final int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                month = month + 1;
+
                 createdQuoteCardView.setVisibility(View.VISIBLE);
+                dateMadeTextView.setText(month + "/" + day + "/" + year);
 
             }
         });
