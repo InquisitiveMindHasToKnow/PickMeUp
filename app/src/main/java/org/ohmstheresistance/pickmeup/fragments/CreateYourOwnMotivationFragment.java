@@ -107,7 +107,6 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                 month = month + 1;
 
                 dateCreated = month + "/" + day + "/" + year;
-                quoteCreated = quoteEditText.getText().toString();
 
                 dateMadeTextView.setText(dateCreated);
 
@@ -120,6 +119,8 @@ public class CreateYourOwnMotivationFragment extends Fragment {
             public void onClick(View v) {
 
                 checkIfUserAlreadyMadeAQuote();
+                quoteCreated = quoteEditText.getText().toString();
+
                 createdQuotesDatabaseHelper.addCreatedQuote(CreatedQuotes.from(quoteCreated, dateCreated));
 
             }
@@ -157,7 +158,6 @@ public class CreateYourOwnMotivationFragment extends Fragment {
         } else {
 
             createdQuotesRecyclerView.setVisibility(View.VISIBLE);
-           // createdQuotes = createdQuotesDatabaseHelper.getCreatedQuotes();
             createdQuotesAdapter.setData(createdQuotes);
 
         }
