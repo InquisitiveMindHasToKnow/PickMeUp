@@ -2,6 +2,7 @@ package org.ohmstheresistance.pickmeup.model;
 
 public class CreatedQuotes {
 
+    private int _id;
     private String createdQuote;
     private String dateCreated;
 
@@ -9,9 +10,18 @@ public class CreatedQuotes {
 
     }
 
-    public CreatedQuotes(String createdQuote, String dateCreated) {
+    public CreatedQuotes(int _id, String createdQuote, String dateCreated) {
+        this._id = _id;
         this.createdQuote = createdQuote;
         this.dateCreated = dateCreated;
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
     public String getCreatedQuote() {
@@ -33,7 +43,8 @@ public class CreatedQuotes {
     @Override
     public String toString() {
         return "Country{" +
-                "ccreated_quote=" + createdQuote +
+                "_id = " + _id +
+                "created_quote=" + createdQuote +
                 ", date_created='" +dateCreated + '\'' +
                 '}';
     }
