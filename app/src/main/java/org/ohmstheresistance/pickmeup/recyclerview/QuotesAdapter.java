@@ -48,8 +48,4 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesViewHolder> {
 
     }
 
-    public void setData(List<Quotes> newQuotesList) {
-        this.quotesList = newQuotesList;
-        notifyDataSetChanged();
-    }
 }
