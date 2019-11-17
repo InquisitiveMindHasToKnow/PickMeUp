@@ -41,8 +41,16 @@ public class CreatedQuotesAdapter extends RecyclerView.Adapter<CreatedQuotesView
     }
 
 
-    public void updateCreatedQuotesData(List<CreatedQuotes> createdQuotesList) {
-        this.createdQuotesList = createdQuotesList;
+    public void updateCreatedQuotesData(List<CreatedQuotes> newCreatedQuotesList) {
+        this.createdQuotesList = newCreatedQuotesList;
+        notifyDataSetChanged();
+    }
+
+    public void update(List<CreatedQuotes> createdQuotesList){
+        createdQuotesList.clear();
+        for (CreatedQuotes model: createdQuotesList) {
+            createdQuotesList.add(model);
+        }
         notifyDataSetChanged();
     }
 
