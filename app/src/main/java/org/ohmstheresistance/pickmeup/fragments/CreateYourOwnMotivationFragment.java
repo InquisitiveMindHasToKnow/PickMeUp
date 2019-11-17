@@ -1,6 +1,10 @@
 package org.ohmstheresistance.pickmeup.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +17,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +33,7 @@ import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.database.CreatedQuotesDatabaseHelper;
 import org.ohmstheresistance.pickmeup.model.CreatedQuotes;
 import org.ohmstheresistance.pickmeup.recyclerview.CreatedQuotesAdapter;
+import org.ohmstheresistance.pickmeup.recyclerview.CreatedQuotesViewHolder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,8 +56,10 @@ public class CreateYourOwnMotivationFragment extends Fragment {
     public static String quoteCreated;
     private List<CreatedQuotes> createdQuotes;
     private LinearLayout noQuotesYetLinearLayout;
+    private CreatedQuotesViewHolder createdQuotesViewHolder;
 
     CreatedQuotesDatabaseHelper createdQuotesDatabaseHelper;
+
 
     public CreateYourOwnMotivationFragment() {
         // Required empty public constructor
@@ -136,12 +145,17 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                     Toast.makeText(getContext(), "Sorry, cannot save an empty quote.", Toast.LENGTH_LONG).show();
                 }else {
                     quoteCreated = quoteEditText.getText().toString();
+
                     createdQuotesDatabaseHelper.addCreatedQuote(CreatedQuotes.from(quoteCreated, dateCreated));
                     createdQuoteCardView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scaledown));
 
                     noQuotesYetLinearLayout.setVisibility(View.INVISIBLE);
                     createdQuoteCardView.setVisibility(View.INVISIBLE);
                     quotesYouveCreatedHeaderTextView.setVisibility(View.VISIBLE);
+
+                    createdQuotesRecyclerView.setVisibility(View.VISIBLE);
+                    createdQuotes.add(createdQuotes.size(), CreatedQuotes.from(quoteCreated, dateCreated));
+                    createdQuotesAdapter.notifyDataSetChanged();
 
                 }
 
@@ -191,6 +205,5 @@ public class CreateYourOwnMotivationFragment extends Fragment {
         }
 
     }
-
 
 }
