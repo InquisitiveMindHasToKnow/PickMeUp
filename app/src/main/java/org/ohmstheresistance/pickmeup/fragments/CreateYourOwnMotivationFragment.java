@@ -1,8 +1,5 @@
 package org.ohmstheresistance.pickmeup.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -17,9 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,7 +28,6 @@ import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.database.CreatedQuotesDatabaseHelper;
 import org.ohmstheresistance.pickmeup.model.CreatedQuotes;
 import org.ohmstheresistance.pickmeup.recyclerview.CreatedQuotesAdapter;
-import org.ohmstheresistance.pickmeup.recyclerview.CreatedQuotesViewHolder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,7 +50,6 @@ public class CreateYourOwnMotivationFragment extends Fragment {
     public static String quoteCreated;
     private List<CreatedQuotes> createdQuotes;
     private LinearLayout noQuotesYetLinearLayout;
-    private CreatedQuotesViewHolder createdQuotesViewHolder;
 
     CreatedQuotesDatabaseHelper createdQuotesDatabaseHelper;
 
@@ -99,9 +92,10 @@ public class CreateYourOwnMotivationFragment extends Fragment {
         createdQuotes = createdQuotesDatabaseHelper.getCreatedQuotes();
 
         createdQuotesAdapter = new CreatedQuotesAdapter(createdQuotes);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         createdQuotesRecyclerView.setLayoutManager(gridLayoutManager);
         createdQuotesRecyclerView.setAdapter(createdQuotesAdapter);
+
 
         new ItemTouchHelper(swipeLeftOrRightToDeleteQuote).attachToRecyclerView(createdQuotesRecyclerView);
 
@@ -152,10 +146,19 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                     noQuotesYetLinearLayout.setVisibility(View.INVISIBLE);
                     createdQuoteCardView.setVisibility(View.INVISIBLE);
                     quotesYouveCreatedHeaderTextView.setVisibility(View.VISIBLE);
-
                     createdQuotesRecyclerView.setVisibility(View.VISIBLE);
-                    createdQuotes.add(createdQuotes.size(), CreatedQuotes.from(quoteCreated, dateCreated));
-                    createdQuotesAdapter.notifyDataSetChanged();
+
+                    createdQuotes.add(0, CreatedQuotes.from(quoteCreated, dateCreated));
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            createdQuotesAdapter.notifyDataSetChanged();
+                        }
+                    }, 2000);
+
+
 
                 }
 
