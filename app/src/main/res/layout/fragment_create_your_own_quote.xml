@@ -9,10 +9,11 @@
     <TextView
         android:id="@+id/created_quotes_header_textview"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="48dp"
-        android:textSize="40sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="32sp"
         android:textColor="#36005F"
+        android:gravity="center_horizontal"
         android:visibility="invisible"
         android:text="Quotes You've Created"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +40,7 @@
         android:id="@+id/no_quotes_yet_header_textview"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textSize="40sp"
+        android:textSize="32sp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:textColor="#36005F"
@@ -121,10 +122,9 @@
     </android.support.v7.widget.CardView>
 
     <LinearLayout
+        android:id="@+id/created_quote_rv_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="60dp"
         android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/created_quotes_header_textview"
