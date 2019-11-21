@@ -15,6 +15,7 @@ import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
 import org.ohmstheresistance.pickmeup.fragments.FavoriteMotivationalQuotes;
+import org.ohmstheresistance.pickmeup.fragments.SplashScreenFragment;
 
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.quoteTextView;
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.saidByTextView;
@@ -37,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
     private void loadBeginningFragment() {
 
-        DisplayQuotesFragment displayQuotesFragment = new DisplayQuotesFragment();
+        SplashScreenFragment splashScreenFragment = new SplashScreenFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container, displayQuotesFragment);
+        fragmentTransaction.replace(R.id.main_fragment_container, splashScreenFragment);
         fragmentTransaction.commit();
     }
 
