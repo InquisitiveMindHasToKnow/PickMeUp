@@ -4,6 +4,7 @@ package org.ohmstheresistance.pickmeup.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -41,6 +42,9 @@ import retrofit2.Retrofit;
 
 public class DisplayQuotesFragment extends Fragment {
 
+    private static final String SHARED_PREFS_KEY = "userNameSharedPref";
+
+
     private View rootView;
     private static final String TAG = "Quotes.TAG";
     private List<Quotes> quotesList;
@@ -48,9 +52,13 @@ public class DisplayQuotesFragment extends Fragment {
     public static TextView saidByTextView;
     private TextView greetingTextView;
     private CardView quoteCardView;
+    private TextView userNameTextView;
+
 
     private RecyclerView upcomingQuotesRecyclerView;
     private QuotesAdapter quotesAdapter;
+
+    private String usersName;
 
     public DisplayQuotesFragment() {
         // Required empty public constructor
@@ -66,8 +74,8 @@ public class DisplayQuotesFragment extends Fragment {
         saidByTextView = rootView.findViewById(R.id.quote_said_by_textview);
         quoteCardView = rootView.findViewById(R.id.quote_cardview);
         greetingTextView = rootView.findViewById(R.id.greeting_textview);
+        userNameTextView = rootView.findViewById(R.id.user_name_textview);
         upcomingQuotesRecyclerView = rootView.findViewById(R.id.upcoming_quotes_recycler_view);
-
         return rootView;
     }
 
@@ -92,13 +100,32 @@ public class DisplayQuotesFragment extends Fragment {
         }else if(timeOfDay >= 21 && timeOfDay < 24){
             greetingTextView.setText(getString(R.string.good_night));
         }
+
+
+        SharedPreferences preferences = getActivity().getSharedPreferences(SHARED_PREFS_KEY, 0);
+        preferences.getString("USER_NAME", " ");
+
+        if (getArguments() != null) {
+
+            // usersName = getArguments().getString("USER_NAME", " ");
+            usersName = preferences.getString("USER_NAME", " ");
+            userNameTextView.setText(usersName);
+
+
+        }else {
+
+
+            userNameTextView.setText(" ");
+            Toast.makeText(getContext(), "Bundle is empty, son", Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
 
     private void getQuoteData() {
 
         quotesList = new ArrayList<>();
-
 
         Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
         QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
@@ -142,6 +169,15 @@ public class DisplayQuotesFragment extends Fragment {
 
         });
 
+    }
+
+    public static DisplayQuotesFragment getInstance(String userName) {
+        DisplayQuotesFragment displayQuotesFragment = new DisplayQuotesFragment();
+
+        Bundle args = new Bundle();
+        args.putString("USER_NAME", userName);
+        displayQuotesFragment.setArguments(args);
+        return displayQuotesFragment;
     }
 
     private void changeQuote() {
