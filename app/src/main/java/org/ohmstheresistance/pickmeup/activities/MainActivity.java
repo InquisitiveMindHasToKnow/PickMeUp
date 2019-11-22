@@ -15,13 +15,14 @@ import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
 import org.ohmstheresistance.pickmeup.fragments.FavoriteMotivationalQuotes;
+import org.ohmstheresistance.pickmeup.fragments.FragmentNavigation;
 import org.ohmstheresistance.pickmeup.fragments.SplashScreenFragment;
 
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.quoteTextView;
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.saidByTextView;
 
 
-public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface {
+public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, FragmentNavigation {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -91,4 +92,15 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         saidByTextView.setText(saidBy);
     }
 
+    @Override
+    public void getUserName(String userName) {
+
+        DisplayQuotesFragment displayQuotesFragment = DisplayQuotesFragment.getInstance(userName);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_container, displayQuotesFragment)
+                .addToBackStack(null)
+                .commit();
+
+    }
 }

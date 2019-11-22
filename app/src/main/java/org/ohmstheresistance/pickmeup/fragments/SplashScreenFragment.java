@@ -61,10 +61,10 @@ public class SplashScreenFragment extends Fragment {
             public void run() {
 
 
-                DisplayQuotesFragment displayQuotesFragment = new DisplayQuotesFragment();
+                UsersNameFragment usersNameFragment = new UsersNameFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment_container, displayQuotesFragment);
+                fragmentTransaction.replace(R.id.main_fragment_container, usersNameFragment);
                 fragmentTransaction.commit();
 
 
