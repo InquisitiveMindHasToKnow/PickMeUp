@@ -141,7 +141,6 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                     quoteCreated = quoteEditText.getText().toString();
 
                     createdQuotesDatabaseHelper.addCreatedQuote(CreatedQuotes.from(quoteCreated, dateCreated));
-                    createdQuoteCardView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scaledown));
 
                     noQuotesYetLinearLayout.setVisibility(View.INVISIBLE);
                     createdQuoteCardView.setVisibility(View.INVISIBLE);
@@ -149,16 +148,7 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                     createdQuotesRecyclerView.setVisibility(View.VISIBLE);
 
                     createdQuotes.add(0, CreatedQuotes.from(quoteCreated, dateCreated));
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            createdQuotesAdapter.notifyDataSetChanged();
-                        }
-                    }, 2000);
-
-
+                    createdQuotesAdapter.notifyDataSetChanged();
 
                 }
 
