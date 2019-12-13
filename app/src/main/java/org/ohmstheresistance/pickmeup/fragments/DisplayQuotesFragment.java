@@ -4,7 +4,6 @@ package org.ohmstheresistance.pickmeup.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -23,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.pickmeup.model.Quotes;
+import org.ohmstheresistance.pickmeup.model.UserInfo;
 import org.ohmstheresistance.pickmeup.network.QuotesService;
 import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 import org.ohmstheresistance.pickmeup.recyclerview.QuotesAdapter;
@@ -42,8 +43,6 @@ import retrofit2.Retrofit;
 
 public class DisplayQuotesFragment extends Fragment {
 
-    private static final String SHARED_PREFS_KEY = "userNameSharedPref";
-
 
     private View rootView;
     private static final String TAG = "Quotes.TAG";
@@ -59,6 +58,9 @@ public class DisplayQuotesFragment extends Fragment {
     private QuotesAdapter quotesAdapter;
 
     private String usersName;
+    UserInfoDatabaseHelper userInfoDatabaseHelper;
+
+    UserInfo userInfo;
 
     public DisplayQuotesFragment() {
         // Required empty public constructor
@@ -68,7 +70,7 @@ public class DisplayQuotesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView =  inflater.inflate(R.layout.fragment_display_quotes, container, false);
+        rootView = inflater.inflate(R.layout.fragment_display_quotes, container, false);
 
         quoteTextView = rootView.findViewById(R.id.chosen_quote_textview);
         saidByTextView = rootView.findViewById(R.id.quote_said_by_textview);
@@ -76,6 +78,9 @@ public class DisplayQuotesFragment extends Fragment {
         greetingTextView = rootView.findViewById(R.id.greeting_textview);
         userNameTextView = rootView.findViewById(R.id.user_name_textview);
         upcomingQuotesRecyclerView = rootView.findViewById(R.id.upcoming_quotes_recycler_view);
+
+        userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(getContext());
+
         return rootView;
     }
 
@@ -83,42 +88,29 @@ public class DisplayQuotesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
+        usersName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
+        userNameTextView.setText(usersName);
+
+
         getQuoteData();
 
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if(timeOfDay >= 0 && timeOfDay < 12){
+        if (timeOfDay >= 0 && timeOfDay < 12) {
             greetingTextView.setText(getString(R.string.good_morning));
 
-        }else if(timeOfDay >= 12 && timeOfDay < 16){
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
             greetingTextView.setText(getString(R.string.good_afternoon));
 
-        }else if(timeOfDay >= 16 && timeOfDay < 21){
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
             greetingTextView.setText(getString(R.string.good_evening));
 
-        }else if(timeOfDay >= 21 && timeOfDay < 24){
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
             greetingTextView.setText(getString(R.string.good_night));
         }
-
-
-        SharedPreferences preferences = getActivity().getSharedPreferences(SHARED_PREFS_KEY, 0);
-        preferences.getString("USER_NAME", " ");
-
-        if (getArguments() != null) {
-
-            // usersName = getArguments().getString("USER_NAME", " ");
-            usersName = preferences.getString("USER_NAME", " ");
-            userNameTextView.setText(usersName);
-
-
-        }else {
-
-
-            userNameTextView.setText(" ");
-            Toast.makeText(getContext(), "Bundle is empty, son", Toast.LENGTH_LONG).show();
-        }
-
 
     }
 
@@ -171,14 +163,6 @@ public class DisplayQuotesFragment extends Fragment {
 
     }
 
-    public static DisplayQuotesFragment getInstance(String userName) {
-        DisplayQuotesFragment displayQuotesFragment = new DisplayQuotesFragment();
-
-        Bundle args = new Bundle();
-        args.putString("USER_NAME", userName);
-        displayQuotesFragment.setArguments(args);
-        return displayQuotesFragment;
-    }
 
     private void changeQuote() {
 

@@ -1,8 +1,10 @@
 package org.ohmstheresistance.pickmeup.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,8 @@ import org.ohmstheresistance.pickmeup.R;
 
 
 public class SplashScreenFragment extends Fragment {
+
+    public static final String KEY_PREFS_FIRST_LAUNCH = "first_launch";
 
     private View rootView;
     private TextView splashScreenTextView;
@@ -56,7 +60,11 @@ public class SplashScreenFragment extends Fragment {
         splashScreenTextView.startAnimation(blinkingAnimation);
 
 
-        new Handler().postDelayed(new Runnable() {
+        final SharedPreferences firstLaunchCheck = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        if (firstLaunchCheck.getBoolean(KEY_PREFS_FIRST_LAUNCH, true)) {
+
+            new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -67,8 +75,27 @@ public class SplashScreenFragment extends Fragment {
                 fragmentTransaction.replace(R.id.main_fragment_container, usersNameFragment);
                 fragmentTransaction.commit();
 
+                firstLaunchCheck.edit().putBoolean(KEY_PREFS_FIRST_LAUNCH, false).apply();
 
             }
         }, 4000);
+
+
+            }else{
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    DisplayQuotesFragment displayQuotesFragment = new DisplayQuotesFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.main_fragment_container, displayQuotesFragment);
+                    fragmentTransaction.commit();
+
+                }
+            }, 4000);
+        }
     }
 }
