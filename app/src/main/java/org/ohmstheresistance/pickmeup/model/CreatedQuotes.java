@@ -42,7 +42,7 @@ public class CreatedQuotes {
 
     @Override
     public String toString() {
-        return "Country{" +
+        return "Quote{" +
                 "_id = " + _id +
                 "created_quote=" + createdQuote +
                 ", date_created='" +dateCreated + '\'' +
