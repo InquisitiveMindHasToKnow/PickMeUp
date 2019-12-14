@@ -15,10 +15,9 @@ import java.util.List;
 public class UserInfoDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "userInfoDatabase";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private static final String TABLE_USER_INFO = "userInfo";
     private Context context;
-    private ContentValues values;
 
     private static UserInfoDatabaseHelper userInfoDatabaseInstance;
 
@@ -60,7 +59,7 @@ public class UserInfoDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         try {
-            values = new ContentValues();
+           ContentValues values = new ContentValues();
             values.put("user_name", userInfo.getUserName());
 
             db.insertOrThrow(TABLE_USER_INFO, null, values);
@@ -80,6 +79,21 @@ public class UserInfoDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateUserName(UserInfo updateUserName) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        try {
+            ContentValues updatedValues = new ContentValues();
+            updatedValues.put("user_name", updateUserName.getUserName());
+
+            db.update(TABLE_USER_INFO, updatedValues,  updateUserName.get_id()+ "=" + 0, null);
+
+
+        } catch (Exception e) {
+            Log.e("User Name", "Error while trying to update name", e);
+        }
+    }
+
     public List<UserInfo> getUserInfo() {
         List<UserInfo> userInfo = new ArrayList<>();
 
@@ -94,7 +108,7 @@ public class UserInfoDatabaseHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.e("Created Quote", "Error while trying to get created quotes from database", e);
+            Log.e("User Info", "Error while trying to get user info from database", e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
