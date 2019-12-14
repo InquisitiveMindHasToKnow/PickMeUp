@@ -4,20 +4,26 @@ package org.ohmstheresistance.pickmeup.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +45,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
 
 public class DisplayQuotesFragment extends Fragment {
 
@@ -88,8 +93,6 @@ public class DisplayQuotesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         usersName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
         userNameTextView.setText(usersName);
 
@@ -111,6 +114,49 @@ public class DisplayQuotesFragment extends Fragment {
         } else if (timeOfDay >= 21 && timeOfDay < 24) {
             greetingTextView.setText(getString(R.string.good_night));
         }
+
+
+        userNameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
+
+                final EditText updateUserNameEdittext = new EditText(v.getContext());
+
+                alertDialog.setTitle("Editing user name");
+                alertDialog.setMessage("Enter your name below: ");
+                alertDialog.setView(updateUserNameEdittext);
+
+                alertDialog.setPositiveButton("Update",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                if (TextUtils.isEmpty(updateUserNameEdittext.getText())) {
+
+                                    Toast.makeText(getContext(), "This field cannot be empty.", Toast.LENGTH_LONG).show();
+                                }else {
+
+                                   String  newUserName = updateUserNameEdittext.getText().toString();
+
+                                    userInfoDatabaseHelper.updateUserName(UserInfo.from(newUserName));
+                                    userNameTextView.setText(newUserName);
+                                    Toast.makeText(getContext(), "Hello, " + newUserName, Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        });
+                alertDialog.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                alertDialog.show();
+
+            }
+        });
 
     }
 
