@@ -25,7 +25,6 @@
         android:id="@+id/user_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Alexander"
         android:textStyle="bold"
         android:textSize="24sp"
         android:textColor="@color/textColor"
