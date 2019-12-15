@@ -5,8 +5,17 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#673AB7</item>
         <item name="colorPrimaryDark">#36005F</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#FFF</item>
     </style>
 
+    <style name="UserInfoDialog" parent="Theme.AppCompat.Dialog">
+
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
+        <item name="android:textColor">@color/textColor</item>
+
+
+    </style>
 
 </resources>

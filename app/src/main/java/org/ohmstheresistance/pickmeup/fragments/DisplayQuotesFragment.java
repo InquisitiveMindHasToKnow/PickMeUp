@@ -225,12 +225,14 @@ public class DisplayQuotesFragment extends Fragment {
 
 
     private void updateUserName(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(), R.style.UserInfoDialog);
 
         final EditText updateUserNameEdittext = new EditText(getContext());
 
         int maxLength = 12;
         updateUserNameEdittext.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        updateUserNameEdittext.setTextColor(getResources().getColor(R.color.textColor));
+
 
         alertDialog.setTitle("Editing user name");
         alertDialog.setMessage("Enter your name below: ");
