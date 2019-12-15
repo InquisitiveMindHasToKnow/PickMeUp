@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.DisplayQuotesFragment">
 
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Good Morning"
         android:textSize="24sp"
-        android:textColor="#36005F"
+        android:textColor="@color/textColor"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/user_name_textview"
@@ -27,7 +28,7 @@
         android:hint="Alexander"
         android:textStyle="bold"
         android:textSize="24sp"
-        android:textColor="#36005F"
+        android:textColor="@color/textColor"
         android:layout_marginBottom="24dp"
         app:layout_constraintTop_toBottomOf="@id/greeting_textview"
         app:layout_constraintBottom_toTopOf="@id/quote_cardview"
@@ -51,7 +52,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#36005F"
+            android:background="@color/colorPrimary"
             android:layout_gravity="center_horizontal"
             >
 
@@ -64,7 +65,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:textSize="16sp"
-                android:textColor="#FFF"
+                android:textColor="@color/textColor"
                 android:textStyle="italic"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -75,7 +76,7 @@
                 android:id="@+id/quote_said_by_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFF"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:textStyle="italic|bold"
                 android:layout_marginEnd="16dp"
