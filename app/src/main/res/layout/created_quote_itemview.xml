@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:background="#36005F">
+        android:background="@color/colorPrimary">
 
         <TextView
 
@@ -27,7 +27,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
             android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            android:textColor="#FFF"
+            android:textColor="@color/textColor"
             android:textSize="12sp"
             android:textStyle="italic"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -42,7 +42,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
             android:text="11/11/19"
-            android:textColor="#FFF"
+            android:textColor="@color/textColor"
             android:textSize="12sp"
             android:textStyle="italic|bold"
             app:layout_constraintBottom_toBottomOf="parent"

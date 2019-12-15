@@ -4,9 +4,7 @@ package org.ohmstheresistance.pickmeup.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -121,7 +119,7 @@ public class DisplayQuotesFragment extends Fragment {
             public void onClick(View v) {
 
 
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
 
                 final EditText updateUserNameEdittext = new EditText(v.getContext());
 
