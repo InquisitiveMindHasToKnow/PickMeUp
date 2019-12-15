@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,10 @@ public class UsersNameFragment extends Fragment {
             final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 
             final EditText getUserNameEdittext = new EditText(getContext());
+
+            int maxLength = 12;
+            getUserNameEdittext.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+
             alert.setTitle("Hello ");
             alert.setMessage("Please enter your name.");
             alert.setCancelable(false);
