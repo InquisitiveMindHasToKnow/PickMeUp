@@ -6,6 +6,7 @@
         <item name="colorPrimary">#673AB7</item>
         <item name="colorPrimaryDark">#36005F</item>
         <item name="colorAccent">#FFF</item>
+        <item name="actionMenuTextAppearance">@style/MenuItemTextAppearance</item>
     </style>
 
     <style name="UserInfoDialog" parent="Theme.AppCompat.Dialog">
@@ -15,7 +16,10 @@
         <item name="android:textColorPrimary">@color/textColor</item>
         <item name="android:textColor">@color/textColor</item>
 
+    </style>
 
+    <style name="MenuItemTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="textAllCaps">false</item>
     </style>
 
 </resources>
