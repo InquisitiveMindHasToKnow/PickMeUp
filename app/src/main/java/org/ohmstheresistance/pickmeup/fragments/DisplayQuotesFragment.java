@@ -12,12 +12,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -62,9 +65,8 @@ public class DisplayQuotesFragment extends Fragment {
     private QuotesAdapter quotesAdapter;
 
     private String usersName;
-    UserInfoDatabaseHelper userInfoDatabaseHelper;
-
-    UserInfo userInfo;
+    private UserInfoDatabaseHelper userInfoDatabaseHelper;
+    private MenuItem menuItem;
 
     public DisplayQuotesFragment() {
         // Required empty public constructor
@@ -92,6 +94,8 @@ public class DisplayQuotesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         usersName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
         userNameTextView.setText(usersName);
 
@@ -114,48 +118,6 @@ public class DisplayQuotesFragment extends Fragment {
             greetingTextView.setText(getString(R.string.good_night));
         }
 
-
-        userNameTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
-
-                final EditText updateUserNameEdittext = new EditText(v.getContext());
-
-                alertDialog.setTitle("Editing user name");
-                alertDialog.setMessage("Enter your name below: ");
-                alertDialog.setView(updateUserNameEdittext);
-
-                alertDialog.setPositiveButton("Update",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                if (TextUtils.isEmpty(updateUserNameEdittext.getText())) {
-
-                                    Toast.makeText(getContext(), "This field cannot be empty.", Toast.LENGTH_LONG).show();
-                                }else {
-
-                                   String  newUserName = updateUserNameEdittext.getText().toString();
-
-                                    userInfoDatabaseHelper.updateUserName(UserInfo.from(newUserName));
-                                    userNameTextView.setText(newUserName);
-                                    Toast.makeText(getContext(), "Hello, " + newUserName, Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-                        });
-                alertDialog.setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                alertDialog.show();
-
-            }
-        });
 
     }
 
@@ -180,9 +142,7 @@ public class DisplayQuotesFragment extends Fragment {
                 }
 
                 quotesAdapter = new QuotesAdapter(quotesList);
-               // GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-
-                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
                 upcomingQuotesRecyclerView.setLayoutManager(linearLayoutManager);
                 upcomingQuotesRecyclerView.setAdapter(quotesAdapter);
@@ -239,6 +199,72 @@ public class DisplayQuotesFragment extends Fragment {
             }
         }, 60000);
     }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.update_user_info_menu, menu);
+        menuItem = menu.findItem(R.id.reset_user_info);
+        menuItem.setTitle("Not " + usersName +"?");
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+            switch(item.getItemId()) {
+                case R.id.reset_user_info:
+
+                    updateUserName();
+
+                    break;
+            }
+        return true;
+    }
+
+
+    private void updateUserName(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+        final EditText updateUserNameEdittext = new EditText(getContext());
+
+        int maxLength = 12;
+        updateUserNameEdittext.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+
+        alertDialog.setTitle("Editing user name");
+        alertDialog.setMessage("Enter your name below: ");
+        alertDialog.setView(updateUserNameEdittext);
+
+        alertDialog.setPositiveButton("Update",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (TextUtils.isEmpty(updateUserNameEdittext.getText())) {
+
+                            Toast.makeText(getContext(), "This field cannot be empty.", Toast.LENGTH_LONG).show();
+                        }else {
+
+                            String  newUserName = updateUserNameEdittext.getText().toString();
+
+                            userInfoDatabaseHelper.updateUserName(UserInfo.from(newUserName));
+                            userNameTextView.setText(newUserName);
+                            menuItem.setTitle("Not " + newUserName +"?");
+                            Toast.makeText(getContext(), "Hello, " + newUserName, Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        alertDialog.show();
+    }
+
+
 
     @Override
     public void onDetach() {
