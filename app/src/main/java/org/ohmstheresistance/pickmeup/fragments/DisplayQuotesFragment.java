@@ -208,6 +208,7 @@ public class DisplayQuotesFragment extends Fragment {
         menuItem = menu.findItem(R.id.reset_user_info);
         menuItem.setTitle("Not " + usersName +"?");
 
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
