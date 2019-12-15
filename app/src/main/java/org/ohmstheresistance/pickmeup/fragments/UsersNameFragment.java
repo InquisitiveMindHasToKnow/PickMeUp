@@ -50,12 +50,13 @@ public class UsersNameFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.UserInfoDialog);
 
             final EditText getUserNameEdittext = new EditText(getContext());
 
             int maxLength = 12;
             getUserNameEdittext.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+            getUserNameEdittext.setTextColor(getResources().getColor(R.color.textColor));
 
             alert.setTitle("Hello ");
             alert.setMessage("Please enter your name.");
