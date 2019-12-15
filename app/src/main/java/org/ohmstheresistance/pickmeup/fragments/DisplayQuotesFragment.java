@@ -97,7 +97,7 @@ public class DisplayQuotesFragment extends Fragment {
         setHasOptionsMenu(true);
 
         usersName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
-        userNameTextView.setText(usersName);
+        userNameTextView.setText(usersName + "!");
 
 
         getQuoteData();
