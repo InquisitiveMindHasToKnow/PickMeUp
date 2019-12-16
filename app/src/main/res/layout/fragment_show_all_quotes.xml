@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textColor"
             android:gravity="center_horizontal"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="Motivating All Day"/>
