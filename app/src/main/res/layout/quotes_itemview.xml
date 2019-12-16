@@ -28,6 +28,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
+            android:hint="dind ijdi di jif idfj fijdfgd igjd dfidjfdifjrgd ij dfi jeijfd dijf dfidjf difj dfi dj"
             android:textColor="@color/textColor"
             android:textSize="12sp"
             android:textStyle="italic"
@@ -35,18 +36,29 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <TextView
             android:id="@+id/upcoming_quote_said_by_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
             android:textColor="@color/textColor"
             android:gravity="center_horizontal"
             android:textSize="16sp"
+            android:hint="BARRY O"
             android:textStyle="italic|bold"
+            app:layout_constraintTop_toBottomOf="@id/upcoming_quote_textview"
+            app:layout_constraintBottom_toTopOf="@id/favorite_unfavorite_imageview"
+            />
+
+
+        <ImageView
+            android:id="@+id/favorite_unfavorite_imageview"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             />
 
     </android.support.constraint.ConstraintLayout>
