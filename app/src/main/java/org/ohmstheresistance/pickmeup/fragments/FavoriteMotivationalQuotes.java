@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
@@ -122,9 +120,12 @@ public class FavoriteMotivationalQuotes extends Fragment {
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.clear_favorites_menu, menu);
-        menuItem = menu.findItem(R.id.remove_all_favorite_quotes);
+        if(!favoritesQuotesList.isEmpty()) {
 
+
+            inflater.inflate(R.menu.clear_favorites_menu, menu);
+            menuItem = menu.findItem(R.id.remove_all_favorite_quotes);
+        }
     }
 
 
@@ -144,7 +145,6 @@ public class FavoriteMotivationalQuotes extends Fragment {
     private void clearAllFavoriteQuotes(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(), R.style.UserInfoDialog);
 
-
         alertDialog.setTitle("Removing all favorites");
         alertDialog.setMessage("Are you sure you want to remove all your favorite quotes?: ");
         alertDialog.setPositiveButton("Yes",
@@ -154,6 +154,12 @@ public class FavoriteMotivationalQuotes extends Fragment {
 
                         favoriteQuotesDatabase.clearFavoriteQuotesDatabase();
                         favoriteQuotesAdapter.setData(favoritesQuotesList);
+
+                        favoriteQuotesRecyclerView.setVisibility(View.INVISIBLE);
+                        favoriteQuotesHeaderTextView.setVisibility(View.INVISIBLE);
+                        noFavoritesYetHeaderTextView.setVisibility(VISIBLE);
+                        menuItem.setVisible(false);
+
 
 
                         }
@@ -167,8 +173,6 @@ public class FavoriteMotivationalQuotes extends Fragment {
                 });
         alertDialog.show();
     }
-
-
 
 }
 
