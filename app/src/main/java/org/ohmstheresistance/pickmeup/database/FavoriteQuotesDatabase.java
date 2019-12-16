@@ -122,7 +122,7 @@ public class FavoriteQuotesDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public void clearFavoriteCountryDatabase() {
+    public void clearFavoriteQuotesDatabase() {
 
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM "+ TABLE_FAVORITES);

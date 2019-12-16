@@ -1,18 +1,25 @@
 package org.ohmstheresistance.pickmeup.fragments;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
@@ -37,6 +44,7 @@ public class FavoriteMotivationalQuotes extends Fragment {
     FavoriteQuotesDatabase favoriteQuotesDatabase;
     FavoriteQuotesAdapter favoriteQuotesAdapter;
     private List<Quotes> favoritesQuotesList;
+    private MenuItem menuItem;
 
     public FavoriteMotivationalQuotes() {
         // Required empty public constructor
@@ -65,6 +73,8 @@ public class FavoriteMotivationalQuotes extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         favoriteQuotesDatabase = new FavoriteQuotesDatabase(getContext());
         favoritesQuotesList = favoriteQuotesDatabase.getFavorites();
@@ -107,6 +117,58 @@ public class FavoriteMotivationalQuotes extends Fragment {
             favoriteQuotesAdapter.setData(favoritesQuotesList);
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.clear_favorites_menu, menu);
+        menuItem = menu.findItem(R.id.remove_all_favorite_quotes);
+
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch(item.getItemId()) {
+            case R.id.remove_all_favorite_quotes:
+
+                clearAllFavoriteQuotes();
+
+                break;
+        }
+        return true;
+    }
+
+    private void clearAllFavoriteQuotes(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(), R.style.UserInfoDialog);
+
+
+        alertDialog.setTitle("Removing all favorites");
+        alertDialog.setMessage("Are you sure you want to remove all your favorite quotes?: ");
+        alertDialog.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        favoriteQuotesDatabase.clearFavoriteQuotesDatabase();
+                        favoriteQuotesAdapter.setData(favoritesQuotesList);
+
+
+                        }
+
+                });
+        alertDialog.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        alertDialog.show();
+    }
+
+
 
 }
 
