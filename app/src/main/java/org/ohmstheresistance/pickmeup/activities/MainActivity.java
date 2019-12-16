@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.nav_view);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
         loadBeginningFragment();
     }
@@ -47,42 +47,46 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     }
 
     private void inflateFragment(Fragment fragment) {
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_fragment_container, fragment)
                 .commit();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment clickedNavTabFragment;
 
-            int mMenuId = item.getItemId();
+            int menuId = item.getItemId();
 
-
-            switch (mMenuId) {
+            switch (menuId) {
                 case R.id.navigation_home:
-                clickedNavTabFragment = new DisplayQuotesFragment();
-                inflateFragment(clickedNavTabFragment);
+
+                        clickedNavTabFragment = new DisplayQuotesFragment();
+                        inflateFragment(clickedNavTabFragment);
+
                     break;
 
                 case R.id.navigation_show_all:
 
-                    clickedNavTabFragment = new ShowAllQuotesFragment();
-                    inflateFragment(clickedNavTabFragment);
+                        clickedNavTabFragment = new ShowAllQuotesFragment();
+                        inflateFragment(clickedNavTabFragment);
+
                     break;
 
                 case R.id.navigation_create:
 
-                clickedNavTabFragment = new CreateYourOwnMotivationFragment();
-                inflateFragment(clickedNavTabFragment);
+                        clickedNavTabFragment = new CreateYourOwnMotivationFragment();
+                        inflateFragment(clickedNavTabFragment);
+
                     break;
 
                 case R.id.navigation_favorites:
 
-                clickedNavTabFragment = new FavoriteMotivationalQuotes();
-                inflateFragment(clickedNavTabFragment);
-                    break;
+                        clickedNavTabFragment = new FavoriteMotivationalQuotes();
+                        inflateFragment(clickedNavTabFragment);
+                        break;
 
             }
 
