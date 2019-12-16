@@ -11,7 +11,7 @@ import org.ohmstheresistance.pickmeup.model.Quotes;
 
 import java.util.List;
 
-public class FavoriteQuotesAdapter extends RecyclerView.Adapter<QuotesViewHolder> {
+public class FavoriteQuotesAdapter extends RecyclerView.Adapter<FavoriteQuotesViewHolder> {
 
     private List<Quotes> favoriteQuotesList;
 
@@ -23,16 +23,16 @@ public class FavoriteQuotesAdapter extends RecyclerView.Adapter<QuotesViewHolder
 
     @NonNull
     @Override
-    public QuotesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View childView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.quotes_itemview, viewGroup, false);
-        return new QuotesViewHolder(childView);
+    public FavoriteQuotesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View childView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favorite_quotes_itemview, viewGroup, false);
+        return new FavoriteQuotesViewHolder(childView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuotesViewHolder quotesViewHolder, int i) {
+    public void onBindViewHolder(@NonNull FavoriteQuotesViewHolder favoriteQuotesViewHolder, int i) {
 
         final Quotes favoriteQuotes = favoriteQuotesList.get(i);
-        quotesViewHolder.onBind(favoriteQuotes);
+        favoriteQuotesViewHolder.onBind(favoriteQuotes);
 
     }
 

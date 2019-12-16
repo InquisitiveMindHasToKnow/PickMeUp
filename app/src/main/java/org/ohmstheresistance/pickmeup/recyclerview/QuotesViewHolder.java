@@ -12,13 +12,17 @@ import org.ohmstheresistance.pickmeup.database.FavoriteQuotesDatabase;
 import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.model.Quotes;
 
+import java.util.List;
+
+
 public class QuotesViewHolder extends RecyclerView.ViewHolder {
 
     private TextView upcomingOrFavoriteQuoteTextView;
     private TextView upcomingOrFavoriteQuoteSaidByTextView;
-    private ImageView favoriteUnfavoriteImageView;
+    public ImageView favoriteUnfavoriteImageView;
     private FavoriteQuotesDatabase favoriteQuotesDatabase;
 
+    private List<Quotes> faveQuoteList;
 
 
     public QuotesViewHolder(@NonNull View itemView) {
@@ -28,6 +32,8 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
         upcomingOrFavoriteQuoteSaidByTextView = itemView.findViewById(R.id.upcoming_quote_said_by_textview);
         favoriteUnfavoriteImageView = itemView.findViewById(R.id.favorite_unfavorite_imageview);
         favoriteQuotesDatabase = FavoriteQuotesDatabase.getInstance(itemView.getContext());
+
+        faveQuoteList = favoriteQuotesDatabase.getFavorites();
     }
 
     public void onBind(final Quotes quotes) {
@@ -73,6 +79,7 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
     }
 
 }

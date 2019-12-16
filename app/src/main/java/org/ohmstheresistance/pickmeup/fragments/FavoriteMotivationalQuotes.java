@@ -107,5 +107,6 @@ public class FavoriteMotivationalQuotes extends Fragment {
             favoriteQuotesAdapter.setData(favoritesQuotesList);
         }
     }
+
 }
 
