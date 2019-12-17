@@ -6,21 +6,19 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.database.CreatedQuotesDatabaseHelper;
@@ -88,8 +86,8 @@ public class CreateYourOwnMotivationFragment extends Fragment {
         createdQuotes = createdQuotesDatabaseHelper.getCreatedQuotes();
 
         createdQuotesAdapter = new CreatedQuotesAdapter(createdQuotes);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        createdQuotesRecyclerView.setLayoutManager(gridLayoutManager);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        createdQuotesRecyclerView.setLayoutManager(linearLayoutManager);
         createdQuotesRecyclerView.setAdapter(createdQuotesAdapter);
 
 
@@ -109,6 +107,7 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                 noQuotesYetLinearLayout.setVisibility(View.INVISIBLE);
                 quotesYouveCreatedHeaderTextView.setVisibility(View.INVISIBLE);
                 createdQuoteCardView.setVisibility(View.VISIBLE);
+                createdQuotesRecyclerView.setVisibility(View.INVISIBLE);
 
                 Calendar cal = Calendar.getInstance();
                 final int year = cal.get(Calendar.YEAR);
@@ -137,9 +136,16 @@ public class CreateYourOwnMotivationFragment extends Fragment {
                     createdQuotesDatabaseHelper.addCreatedQuote(CreatedQuotes.from(quoteCreated, dateCreated));
 
                     noQuotesYetLinearLayout.setVisibility(View.INVISIBLE);
+                    quoteEditText.getText().clear();
                     createdQuoteCardView.setVisibility(View.INVISIBLE);
                     quotesYouveCreatedHeaderTextView.setVisibility(View.VISIBLE);
                     createdQuotesRecyclerView.setVisibility(View.VISIBLE);
+
+
+
+                    quoteEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+
 
                     createdQuotes.add(0, CreatedQuotes.from(quoteCreated, dateCreated));
                     createdQuotesAdapter.notifyDataSetChanged();
