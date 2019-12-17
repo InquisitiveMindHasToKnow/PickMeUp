@@ -253,7 +253,6 @@ public class DisplayQuotesFragment extends Fragment {
                             userInfoDatabaseHelper.updateUserName(UserInfo.from(newUserName));
                             userNameTextView.setText(newUserName + "!");
                             menuItem.setTitle("Not " + newUserName +"?");
-                            Toast.makeText(getContext(), "Hello, " + newUserName, Toast.LENGTH_LONG).show();
                         }
 
                     }
