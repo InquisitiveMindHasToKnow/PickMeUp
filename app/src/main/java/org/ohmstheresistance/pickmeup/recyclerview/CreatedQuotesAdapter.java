@@ -34,9 +34,6 @@ public class CreatedQuotesAdapter extends RecyclerView.Adapter<CreatedQuotesView
 
         final CreatedQuotes createdQuotes = createdQuotesList.get(i);
         createdQuotesViewHolder.onBind(createdQuotes);
-
-        animateAddedQuote(createdQuotesViewHolder.itemView, i);
-
     }
 
     @Override
@@ -51,13 +48,4 @@ public class CreatedQuotesAdapter extends RecyclerView.Adapter<CreatedQuotesView
         notifyDataSetChanged();
     }
 
-    private void animateAddedQuote(View viewToAnimate, int position) {
-
-        if (position == 0) {
-
-            viewToAnimate.startAnimation(AnimationUtils.loadAnimation(viewToAnimate.getContext(), R.anim.scaleup));
-            lastPosition = position;
-        }
-
-    }
 }

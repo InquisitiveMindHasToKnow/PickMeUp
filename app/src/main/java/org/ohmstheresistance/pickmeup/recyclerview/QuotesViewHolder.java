@@ -48,19 +48,6 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
         upcomingOrFavoriteQuoteTextView.setText(upcomingOrFavoriteQuote);
         upcomingOrFavoriteQuoteSaidByTextView.setText(upcomingOrFavoriteQuoteSaidBy);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                ChangeCardDisplayInterface changeCardDisplayInterface = (ChangeCardDisplayInterface) itemView.getContext();
-                changeCardDisplayInterface.updateMainQuoteDisplayed(upcomingOrFavoriteQuote, upcomingOrFavoriteQuoteSaidBy);
-
-
-                     itemView.startAnimation(AnimationUtils.loadAnimation(itemView.getContext(), R.anim.scaleup));
-                }
-        });
-
         favoriteUnfavoriteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

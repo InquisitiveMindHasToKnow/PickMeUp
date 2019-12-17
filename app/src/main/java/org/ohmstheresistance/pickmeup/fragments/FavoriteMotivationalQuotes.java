@@ -181,7 +181,7 @@ public class FavoriteMotivationalQuotes extends Fragment {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(), R.style.UserInfoDialog);
 
             alertDialog.setTitle("Removing all favorites");
-            alertDialog.setMessage("Are you sure you want to remove all your favorite quotes?: ");
+            alertDialog.setMessage("Are you sure you want to remove all your favorite quotes?");
             alertDialog.setPositiveButton("Yes",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
