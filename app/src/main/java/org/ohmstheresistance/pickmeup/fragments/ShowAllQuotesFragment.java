@@ -31,7 +31,7 @@ import retrofit2.Retrofit;
 import static android.support.constraint.Constraints.TAG;
 
 
-public class ShowAllQuotesFragment extends Fragment {
+public class ShowAllQuotesFragment extends Fragment{
 
     private View rootView;
     private List<Quotes> showAllQuotesList;
@@ -66,42 +66,42 @@ public class ShowAllQuotesFragment extends Fragment {
     }
 
 
-        private void getAllQuotes() {
+    private void getAllQuotes() {
 
-            showAllQuotesList = new ArrayList<>();
+        showAllQuotesList = new ArrayList<>();
 
-            Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
-            QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
-            quotesService.getQuotes().enqueue(new Callback<List<Quotes>>() {
+        Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
+        QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
+        quotesService.getQuotes().enqueue(new Callback<List<Quotes>>() {
 
-                @Override
-                public void onResponse(Call<List<Quotes>> call, Response<List<Quotes>> response) {
+            @Override
+            public void onResponse(Call<List<Quotes>> call, Response<List<Quotes>> response) {
 
-                    showAllQuotesList = response.body();
-                    Collections.shuffle(showAllQuotesList);
+                showAllQuotesList = response.body();
+                Collections.shuffle(showAllQuotesList);
 
-                    if (showAllQuotesList == null) {
-                        Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    showAllQuotesAdapter = new ShowAllQuotesAdapter(showAllQuotesList);
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
-                    showAllQuotesRecyclerView.setLayoutManager(linearLayoutManager);
-                    showAllQuotesRecyclerView.setAdapter(showAllQuotesAdapter);
-
+                if (showAllQuotesList == null) {
+                    Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
+                    return;
                 }
 
-                @Override
-                public void onFailure(Call<List<Quotes>> call, Throwable t) {
+                showAllQuotesAdapter = new ShowAllQuotesAdapter(showAllQuotesList);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
-                    Toast.makeText(getContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Quote Retrofit Call Failed: " + t.getMessage());
-                }
+                showAllQuotesRecyclerView.setLayoutManager(linearLayoutManager);
+                showAllQuotesRecyclerView.setAdapter(showAllQuotesAdapter);
 
-            });
+            }
 
-        }
+            @Override
+            public void onFailure(Call<List<Quotes>> call, Throwable t) {
+
+                Toast.makeText(getContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Quote Retrofit Call Failed: " + t.getMessage());
+            }
+
+        });
 
     }
+
+}

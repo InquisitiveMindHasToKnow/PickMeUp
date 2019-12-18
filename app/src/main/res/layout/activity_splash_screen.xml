@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#36005F"
     android:id="@+id/splash_layout"
-    tools:context=".fragments.SplashScreenFragment">
+    tools:context=".activities.SplashScreenActivity">
 
 
     <TextView
@@ -36,5 +36,6 @@
         android:src="@drawable/selfmotivated"
 
         />
+
 
 </android.support.constraint.ConstraintLayout>

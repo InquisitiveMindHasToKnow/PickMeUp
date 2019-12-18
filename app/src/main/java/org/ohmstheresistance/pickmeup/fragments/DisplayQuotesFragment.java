@@ -5,8 +5,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.pickmeup.R;
+
 import org.ohmstheresistance.pickmeup.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.pickmeup.model.Quotes;
 import org.ohmstheresistance.pickmeup.model.UserInfo;
@@ -48,10 +51,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class DisplayQuotesFragment extends Fragment {
+public class DisplayQuotesFragment extends Fragment{
 
 
     private View rootView;
+    public static final String KEY_PREFS_FIRST_LAUNCH = "first_launch";
     private static final String TAG = "Quotes.TAG";
     private List<Quotes> quotesList;
     public static TextView quoteTextView;
@@ -96,8 +100,19 @@ public class DisplayQuotesFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        usersName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
-        userNameTextView.setText(usersName + "!");
+        final SharedPreferences firstLaunchCheck = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        if (firstLaunchCheck.getBoolean(KEY_PREFS_FIRST_LAUNCH, true)) {
+
+            usersName = " ";
+            userNameTextView.setText(usersName);
+
+
+            firstLaunchCheck.edit().putBoolean(KEY_PREFS_FIRST_LAUNCH, false).apply();
+        }else
+
+            usersName = userInfoDatabaseHelper.getUserInfo().get(0).getUserName();
+            userNameTextView.setText(usersName + "!");
 
 
         getQuoteData();
@@ -273,7 +288,6 @@ public class DisplayQuotesFragment extends Fragment {
 
         super.onDetach();
     }
-
 
 }
 

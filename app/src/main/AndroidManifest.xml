@@ -12,8 +12,10 @@
         android:roundIcon="@drawable/pickmeuplogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.UserNameActivity"></activity>
+        <activity android:name=".activities.FragmentHolderActivity" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.SplashScreenActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

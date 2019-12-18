@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,7 +50,7 @@ public class FavoriteMotivationalQuotes extends Fragment {
     private List<Quotes> favoritesQuotesList;
     private MenuItem menuItem;
 
-    private ConstraintLayout favoriteCountriesConstraintLayout;
+    private ConstraintLayout favoriteQuotesConstraintLayout;
 
     public FavoriteMotivationalQuotes() {
         // Required empty public constructor
@@ -66,7 +67,7 @@ public class FavoriteMotivationalQuotes extends Fragment {
         favoriteQuotesHeaderTextView = rootView.findViewById(R.id.favorite_quotes_header);
         noFavoritesYetHeaderTextView = rootView.findViewById(R.id.no_favorites_yet_header);
 
-        favoriteCountriesConstraintLayout = rootView.findViewById(R.id.favorite_quotes_constraint_layout);
+        favoriteQuotesConstraintLayout = rootView.findViewById(R.id.favorite_quotes_constraint_layout);
 
         favoriteQuotesAdapter = new FavoriteQuotesAdapter(favoritesQuotesList);
         favoriteQuotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -89,6 +90,7 @@ public class FavoriteMotivationalQuotes extends Fragment {
         checkWhatHeaderToUse();
 
     }
+
 
     ItemTouchHelper.SimpleCallback swipeLeftOrRightToDeleteFavorites = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
@@ -153,7 +155,7 @@ public class FavoriteMotivationalQuotes extends Fragment {
 
         if (favoritesQuotesList.isEmpty()) {
 
-            Snackbar noFavoritesToDeleteSnackbar = Snackbar.make(favoriteCountriesConstraintLayout, "Nothing to delete.", Snackbar.LENGTH_LONG);
+            Snackbar noFavoritesToDeleteSnackbar = Snackbar.make(favoriteQuotesConstraintLayout, "Nothing to delete.", Snackbar.LENGTH_LONG);
             View snackbarView = noFavoritesToDeleteSnackbar.getView();
             TextView snackBarTextView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
 
@@ -210,4 +212,11 @@ public class FavoriteMotivationalQuotes extends Fragment {
 
     }
 
-}
+    public void refreshAdapter(){
+
+        List<Quotes> newFavoriteList = favoriteQuotesDatabase.getFavorites();
+        favoriteQuotesAdapter.setData(newFavoriteList);
+        favoriteQuotesAdapter.notifyDataSetChanged();
+        }
+    }
+
