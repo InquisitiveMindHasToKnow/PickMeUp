@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".fragments.SetUpNotificationFragment">
+
+
+    <TextView
+        android:id="@+id/set_up_notification_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:textColor="@color/textColor"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Set Up Notification Time" />
+
+
+    <TextView
+        android:id="@+id/set_up_notification_time_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/textColor"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/set_up_notification_textview"
+        android:text="0:00" />
+
+</android.support.constraint.ConstraintLayout>
