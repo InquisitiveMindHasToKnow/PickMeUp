@@ -1,12 +1,15 @@
 package org.ohmstheresistance.pickmeup.fragments;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +18,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
+import org.ohmstheresistance.pickmeup.helpers.TimePickerFragment;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
-
-public class SetUpNotificationFragment extends Fragment {
+public class SetUpNotificationFragment extends Fragment implements TimePickerDialog.OnTimeSetListener {
 
     private View rootView;
     private TextView setUpNotificationTextView;
-    private TextView setUpNotificationTimeTextView;
-
-    private TimePickerDialog.OnTimeSetListener chooseATimeListener;
-    private String timeOfDay;
-    private String time;
+    private static TextView setUpNotificationTimeTextView;
 
     public SetUpNotificationFragment() {
         // Required empty public constructor
@@ -51,60 +52,45 @@ public class SetUpNotificationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Calendar c = Calendar.getInstance();
-        final int hourChosen = c.get(Calendar.HOUR_OF_DAY);
-        final int minuteChosen = c.get(Calendar.MINUTE);
-
-        setUpNotificationTextView.setOnClickListener(new View.OnClickListener() {
+        setUpNotificationTimeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                TimePickerDialog dialog = new TimePickerDialog(getContext(),R.style.CustomTimeDialog,  new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        if (hourOfDay == 0) {
+                TimePickerFragment.setNotificationTime(getContext(), setUpNotificationTimeTextView);
 
-                            hourOfDay += 12;
-                            timeOfDay = " AM";
-                        } else if (hourOfDay == 12) {
-
-                            timeOfDay = " PM";
-
-                        } else if (hourOfDay > 12) {
-
-                            hourOfDay -= 12;
-                            timeOfDay = " PM";
-
-                        } else {
-                            timeOfDay = " AM";
-                        }
-
-                        if (minute < 10) {
-                            time = hourOfDay + ":0" + minute + timeOfDay;
-                        } else
-                            time = hourOfDay + ":" + minute + timeOfDay;
-                        setUpNotificationTimeTextView.setText(time);
-
-                    }
-                }, hourChosen, minuteChosen, false);
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
             }
+
         });
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        startAlarm(calendar);
+        updateTimeText(calendar);
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
 
 
-        chooseATimeListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+    private void updateTimeText(Calendar c) {
 
-
-                String time = hourOfDay + " : " + minute;
-                setUpNotificationTimeTextView.setText(time);
-
-            }
-        };
-
-
+        String timeForNotification = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        setUpNotificationTimeTextView.setText(timeForNotification);
     }
 }
