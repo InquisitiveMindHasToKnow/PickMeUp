@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 
 import org.ohmstheresistance.pickmeup.R;
 
+public class ShowNotification extends Fragment {
 
-public class GetUsersNameFragment extends Fragment {
-
-    private View rootView;
-
-    public GetUsersNameFragment() {
+    public ShowNotification() {
         // Required empty public constructor
     }
 
@@ -22,11 +19,8 @@ public class GetUsersNameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        rootView = inflater.inflate(R.layout.fragment_get_users_name, container, false);
-
-
-        return rootView;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_show_notification, container, false);
     }
 
 }

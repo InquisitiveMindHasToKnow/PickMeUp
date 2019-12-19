@@ -22,4 +22,8 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="CustomTimeDialog" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>
