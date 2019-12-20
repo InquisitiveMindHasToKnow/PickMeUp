@@ -11,8 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import org.ohmstheresistance.pickmeup.R;
 
 public class NotificationHelper extends ContextWrapper {
-    public static final String channelID = "channelID";
-    public static final String channelName = "Channel Name";
+    public static final String NOTIFICATION_CHANNEL_ID = "notificationChannelID";
+    public static final String NOTIFICATION_CHANNEL_NAME = "Notification Channel Name";
 
     private NotificationManager notificationManager;
 
@@ -25,7 +25,7 @@ public class NotificationHelper extends ContextWrapper {
 
     @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
 
         getManager().createNotificationChannel(channel);
     }
@@ -39,9 +39,10 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification() {
-        return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Hey, you...")
-                .setContentText("You can do it! I'm telling yoooou!")
-                .setSmallIcon(R.drawable.pickmeuplogo);
-    }
+        return new NotificationCompat.Builder(getApplicationContext(), NOTIFICATION_CHANNEL_ID)
+                .setContentTitle("Pick Me Up")
+                .setContentText("Notification now sent based on time selected!!!")
+                .setSmallIcon(R.drawable.selfmotivated);
+}
+
 }
