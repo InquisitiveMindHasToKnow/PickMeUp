@@ -57,7 +57,7 @@ public class NotificationHelper extends ContextWrapper {
                 .setVibrate(new long[]{250, 250, 250, 250})
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setSmallIcon(R.drawable.selfmotivated);
+                .setSmallIcon(R.drawable.pmu_push_notification);
 }
 
 }
