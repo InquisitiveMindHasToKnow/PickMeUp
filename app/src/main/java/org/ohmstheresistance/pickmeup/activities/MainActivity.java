@@ -22,6 +22,7 @@ import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
 import org.ohmstheresistance.pickmeup.fragments.FavoriteMotivationalQuotes;
 import org.ohmstheresistance.pickmeup.fragments.ShowAllQuotesFragment;
+import org.ohmstheresistance.pickmeup.fragments.ShowNotification;
 import org.ohmstheresistance.pickmeup.fragments.SplashScreenFragment;
 import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
 
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
 
+    Fragment notificationFragment = new ShowNotification();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,16 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         calendar = Calendar.getInstance();
 
-        loadBeginningFragment();
+
+        boolean fromNotification = getIntent().getBooleanExtra("FromNotification",false);
+
+        if(fromNotification){
+
+            inflateFragment(notificationFragment);
+        }else{
+
+            loadBeginningFragment();
+        }
     }
 
     private void loadBeginningFragment() {
@@ -77,30 +89,30 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
             switch (menuId) {
                 case R.id.navigation_home:
 
-                        clickedNavTabFragment = new DisplayQuotesFragment();
-                        inflateFragment(clickedNavTabFragment);
+                    clickedNavTabFragment = new DisplayQuotesFragment();
+                    inflateFragment(clickedNavTabFragment);
 
                     break;
 
                 case R.id.navigation_show_all:
 
-                        clickedNavTabFragment = new ShowAllQuotesFragment();
-                        inflateFragment(clickedNavTabFragment);
+                    clickedNavTabFragment = new ShowAllQuotesFragment();
+                    inflateFragment(clickedNavTabFragment);
 
                     break;
 
                 case R.id.navigation_create:
 
-                        clickedNavTabFragment = new CreateYourOwnMotivationFragment();
-                        inflateFragment(clickedNavTabFragment);
+                    clickedNavTabFragment = new CreateYourOwnMotivationFragment();
+                    inflateFragment(clickedNavTabFragment);
 
                     break;
 
                 case R.id.navigation_favorites:
 
-                        clickedNavTabFragment = new FavoriteMotivationalQuotes();
-                        inflateFragment(clickedNavTabFragment);
-                        break;
+                    clickedNavTabFragment = new FavoriteMotivationalQuotes();
+                    inflateFragment(clickedNavTabFragment);
+                    break;
 
             }
 
@@ -126,13 +138,14 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         startAlarm(calendar);
         updateTimeText(calendar);
+
     }
 
     private void startAlarm(Calendar c) {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, AlertReceiver.class);
-        PendingIntent notificationPendingIntent = PendingIntent.getBroadcast(this, 0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent notificationPendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationPendingIntent);
 
         if (c.before(Calendar.getInstance())) {
