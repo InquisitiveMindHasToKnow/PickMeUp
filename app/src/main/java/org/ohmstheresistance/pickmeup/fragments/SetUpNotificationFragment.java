@@ -13,10 +13,10 @@ import android.widget.TextView;
 import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.helpers.TimePickerFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-
-
+import java.util.Date;
+import java.util.Locale;
 
 public class SetUpNotificationFragment extends Fragment {
 
@@ -40,6 +40,10 @@ public class SetUpNotificationFragment extends Fragment {
         setUpNotificationTimeTextView = rootView.findViewById(R.id.set_up_notification_time_textview);
 
         calendar = Calendar.getInstance();
+
+        String currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
+        setUpNotificationTimeTextView.setText(currentTime);
+
 
         return rootView;
     }
