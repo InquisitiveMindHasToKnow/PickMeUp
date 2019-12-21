@@ -6,7 +6,7 @@
         <item name="colorPrimary">#673AB7</item>
         <item name="colorPrimaryDark">#36005F</item>
         <item name="colorAccent">#FFF</item>
-        <item name="actionMenuTextAppearance">@style/MenuItemTextAppearance</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
     </style>
 
     <style name="UserInfoDialog" parent="Theme.AppCompat.Dialog">
@@ -24,6 +24,10 @@
 
     <style name="CustomTimeDialog" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>
