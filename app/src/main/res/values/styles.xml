@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">#36005F</item>
         <item name="colorAccent">#FFF</item>
         <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
+        <item name="actionMenuTextAppearance">@style/MenuItemTextAppearance</item>
     </style>
 
     <style name="UserInfoDialog" parent="Theme.AppCompat.Dialog">

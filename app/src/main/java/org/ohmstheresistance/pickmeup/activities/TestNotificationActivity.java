@@ -1,13 +1,10 @@
-package org.ohmstheresistance.pickmeup.fragments;
+package org.ohmstheresistance.pickmeup.activities;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +23,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ShowNotification extends Fragment {
+public class TestNotificationActivity extends AppCompatActivity {
+
 
     private static final String TAG = "Quotes.TAG";
 
@@ -34,40 +32,21 @@ public class ShowNotification extends Fragment {
     private String notificationQuote;
     private  String notificationQuoteSaidBy;
 
-    private View rootView;
-
     private TextView notificationQuoteTextView;
     private TextView notificationQuoteSaidByTextView;
 
-    List<Quotes>notificationQuotesList;
-
-
-    public ShowNotification() {
-        // Required empty public constructor
-    }
+    List<Quotes> notificationQuotesList;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_notification);
 
-        rootView = inflater.inflate(R.layout.fragment_show_notification, container, false);
-
-        notificationQuoteTextView = rootView.findViewById(R.id.sent_notification_quote_textview);
-        notificationQuoteSaidByTextView = rootView.findViewById(R.id.sent_notification_quote_said_by_textview);
-
-
-        return rootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        notificationQuoteTextView = findViewById(R.id.sent_notification_quote_textview);
+        notificationQuoteSaidByTextView = findViewById(R.id.sent_notification_quote_said_by_textview);
 
         getQuoteData();
-
-        notificationQuoteTextView.setText(notificationQuote);
-        notificationQuoteSaidByTextView.setText(notificationQuoteSaidBy);
 
     }
 
@@ -87,7 +66,7 @@ public class ShowNotification extends Fragment {
                 Collections.shuffle(notificationQuotesList);
 
                 if (notificationQuotesList == null) {
-                    Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -100,16 +79,19 @@ public class ShowNotification extends Fragment {
                 notificationQuote = quoteForNotification.getQuote();
                 notificationQuoteSaidBy = quoteForNotification.getSaidby();
 
+
+                notificationQuoteTextView.setText(notificationQuote);
+                notificationQuoteSaidByTextView.setText(notificationQuoteSaidBy);
+
             }
 
             @Override
             public void onFailure(Call<List<Quotes>> call, Throwable t) {
 
-                Toast.makeText(getContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
             }
 
         });
 
     }
-
 }

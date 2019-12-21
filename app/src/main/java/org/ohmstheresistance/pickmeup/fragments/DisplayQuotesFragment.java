@@ -216,14 +216,12 @@ public class DisplayQuotesFragment extends Fragment {
                 case R.id.reset_user_info:
 
                     updateUserName();
-
                     break;
 
                 case R.id.set_up_notification:
 
                     SetUpNotificationFragment setUpNotificationFragment = new SetUpNotificationFragment();
                     inflateFragment(setUpNotificationFragment);
-
                     break;
             }
         return true;

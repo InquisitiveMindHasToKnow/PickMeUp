@@ -15,6 +15,9 @@ import org.ohmstheresistance.pickmeup.helpers.TimePickerFragment;
 
 import java.util.Calendar;
 
+
+
+
 public class SetUpNotificationFragment extends Fragment {
 
     private View rootView;
@@ -51,7 +54,6 @@ public class SetUpNotificationFragment extends Fragment {
 
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getActivity().getSupportFragmentManager(), "notificationTimePicker");
-
             }
 
         });
