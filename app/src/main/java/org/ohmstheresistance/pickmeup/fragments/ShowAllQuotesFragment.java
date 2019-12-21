@@ -40,12 +40,9 @@ public class ShowAllQuotesFragment extends Fragment {
     private RecyclerView showAllQuotesRecyclerView;
     private ShowAllQuotesAdapter showAllQuotesAdapter;
 
-    private TextView showAllQuotesHeaderTextView;
-
     public ShowAllQuotesFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,8 +51,6 @@ public class ShowAllQuotesFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_show_all_quotes, container, false);
 
         showAllQuotesRecyclerView = rootView.findViewById(R.id.showall_quotes_recycler_view);
-        showAllQuotesHeaderTextView  = rootView.findViewById(R.id.showall_quotes_header_textview);
-
 
         return rootView;
     }
@@ -66,25 +61,9 @@ public class ShowAllQuotesFragment extends Fragment {
 
         getAllQuotes();
 
-        showAllQuotesHeaderTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                SetUpNotificationFragment setUpNotificationFragment = new SetUpNotificationFragment();
-                inflateFragment(setUpNotificationFragment);
-
-            }
-        });
-
-
     }
 
-    private void inflateFragment(Fragment fragment) {
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_fragment_container, fragment)
-                .commit();
-    }
 
         private void getAllQuotes() {
 

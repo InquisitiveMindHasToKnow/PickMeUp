@@ -204,10 +204,8 @@ public class DisplayQuotesFragment extends Fragment {
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.update_user_info_menu, menu);
+        inflater.inflate(R.menu.settings_menu, menu);
         menuItem = menu.findItem(R.id.reset_user_info);
-        menuItem.setTitle("Not " + usersName +"?");
-
 
     }
 
@@ -218,6 +216,13 @@ public class DisplayQuotesFragment extends Fragment {
                 case R.id.reset_user_info:
 
                     updateUserName();
+
+                    break;
+
+                case R.id.set_up_notification:
+
+                    SetUpNotificationFragment setUpNotificationFragment = new SetUpNotificationFragment();
+                    inflateFragment(setUpNotificationFragment);
 
                     break;
             }
@@ -264,6 +269,13 @@ public class DisplayQuotesFragment extends Fragment {
                     }
                 });
         alertDialog.show();
+    }
+
+    private void inflateFragment(Fragment fragment) {
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_fragment_container, fragment)
+                .commit();
     }
 
 
