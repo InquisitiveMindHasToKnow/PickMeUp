@@ -13,7 +13,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import org.ohmstheresistance.pickmeup.R;
-import org.ohmstheresistance.pickmeup.activities.TestNotificationActivity;
+import org.ohmstheresistance.pickmeup.activities.MainActivity;
 
 public class NotificationHelper extends ContextWrapper {
     public static final String NOTIFICATION_CHANNEL_ID = "notificationChannelID";
@@ -45,14 +45,14 @@ public class NotificationHelper extends ContextWrapper {
 
     public NotificationCompat.Builder getChannelNotification() {
 
-        Intent notificationIntent = new Intent(getApplicationContext(), TestNotificationActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
         notificationIntent.putExtra("FromNotification", true);
 
         PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         return new NotificationCompat.Builder(getApplicationContext(), NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("Pick Me Up")
-                .setContentText("You need that boost of inspiration? We've got you!")
+                .setContentText("You definitely need to see this!")
                 .setContentIntent(notificationPendingIntent)
                 .setVibrate(new long[]{250, 250, 250, 250})
                 .setAutoCancel(true)
