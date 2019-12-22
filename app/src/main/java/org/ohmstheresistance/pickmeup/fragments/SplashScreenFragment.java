@@ -2,6 +2,7 @@ package org.ohmstheresistance.pickmeup.fragments;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -51,6 +52,9 @@ public class SplashScreenFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rootView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.bounce));
+
+        splashScreenTextView.setPaintFlags(splashScreenTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
 
         Animation blinkingAnimation = new AlphaAnimation(0.0f, 1.0f);
         blinkingAnimation.setDuration(100);

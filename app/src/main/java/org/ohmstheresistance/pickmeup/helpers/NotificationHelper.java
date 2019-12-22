@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
 
@@ -33,6 +34,10 @@ public class NotificationHelper extends ContextWrapper {
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
 
         getManager().createNotificationChannel(channel);
+
+        channel.enableLights(true);
+        channel.setLightColor(Color.GREEN);
+        channel.enableVibration(true);
     }
 
     public NotificationManager getManager() {
