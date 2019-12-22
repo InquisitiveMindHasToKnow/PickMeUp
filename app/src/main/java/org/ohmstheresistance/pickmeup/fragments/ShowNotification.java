@@ -66,9 +66,6 @@ public class ShowNotification extends Fragment {
 
         getQuoteData();
 
-        notificationQuoteTextView.setText(notificationQuote);
-        notificationQuoteSaidByTextView.setText(notificationQuoteSaidBy);
-
     }
 
 
@@ -99,6 +96,9 @@ public class ShowNotification extends Fragment {
 
                 notificationQuote = quoteForNotification.getQuote();
                 notificationQuoteSaidBy = quoteForNotification.getSaidby();
+
+                notificationQuoteTextView.setText(notificationQuote);
+                notificationQuoteSaidByTextView.setText(notificationQuoteSaidBy);
 
             }
 

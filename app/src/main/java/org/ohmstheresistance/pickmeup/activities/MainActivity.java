@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
 
-    Fragment notificationFragment = new ShowNotification();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +50,10 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         calendar = Calendar.getInstance();
 
 
-        boolean fromNotification = getIntent().getBooleanExtra("FromNotification",false);
+        onNewIntent(getIntent());
 
-        if(fromNotification){
+        loadBeginningFragment();
 
-            inflateFragment(notificationFragment);
-        }else{
-
-            loadBeginningFragment();
-        }
     }
 
     private void loadBeginningFragment() {
@@ -162,4 +155,24 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         setUpNotificationTimeTextView.setText(timeForNotification);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent != null) {
+
+            boolean notificationBoolean = intent.getBooleanExtra("FromNotification", true);
+
+            if (notificationBoolean) {
+
+                Fragment fragment = new ShowNotification();
+                inflateFragment(fragment);
+            }
+
+            else{
+
+                loadBeginningFragment();
+            }
+        }
+    }
 }
