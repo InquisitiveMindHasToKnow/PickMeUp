@@ -12,22 +12,27 @@
         android:id="@+id/set_up_notification_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
+        android:textSize="32sp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/textColor"
         android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Set Up Notification Time" />
 
 
+
     <TextView
         android:id="@+id/set_up_notification_time_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:textSize="32dp"
+        android:layout_marginTop="80dp"
         android:textColor="@color/textColor"
-        android:gravity="center_horizontal"
+        android:background="@drawable/circle"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/set_up_notification_textview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:text="12:00 AM" />
 
 </android.support.constraint.ConstraintLayout>

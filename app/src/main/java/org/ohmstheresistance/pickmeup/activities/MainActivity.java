@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         calendar = Calendar.getInstance();
 
-
         onNewIntent(getIntent());
 
         loadBeginningFragment();
@@ -175,5 +174,4 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
             }
         }
     }
-
 }
