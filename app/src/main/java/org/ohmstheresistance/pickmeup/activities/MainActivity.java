@@ -3,6 +3,7 @@ package org.ohmstheresistance.pickmeup.activities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -34,7 +35,7 @@ import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.sai
 import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeTextView;
 
 
-public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, TimePickerDialog.OnTimeSetListener {
+public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, TimePickerDialog.OnTimeSetListener, ComponentCallbacks2  {
 
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
@@ -172,6 +173,14 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
                 loadBeginningFragment();
             }
+        }
+    }
+
+    @Override
+    public void onTrimMemory(final int level) {
+        if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+
+            onNewIntent(getIntent());
         }
     }
 }
