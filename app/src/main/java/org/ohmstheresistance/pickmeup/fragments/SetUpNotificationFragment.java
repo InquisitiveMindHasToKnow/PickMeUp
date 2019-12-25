@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.database.NotificationTimeDatabase;
+import org.ohmstheresistance.pickmeup.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.pickmeup.helpers.TimePickerFragment;
+import org.ohmstheresistance.pickmeup.model.NotificationTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,6 +28,11 @@ public class SetUpNotificationFragment extends Fragment {
     public static TextView setUpNotificationTimeTextView;
     public static TextView setUpNotificationTimeSetForTextView;
     private Calendar calendar;
+
+    private NotificationTimeDatabase notificationTimeDatabase;
+    private String dailynotificationTime;
+    private String currentTime;
+
 
     public SetUpNotificationFragment() {
         // Required empty public constructor
@@ -43,8 +51,14 @@ public class SetUpNotificationFragment extends Fragment {
 
         calendar = Calendar.getInstance();
 
-        String currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
+        notificationTimeDatabase = NotificationTimeDatabase.getInstance(getContext());
+
+        currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
         setUpNotificationTimeTextView.setText(currentTime);
+
+        notificationTimeDatabase.setUpNotificationTime(NotificationTime.from(currentTime));
+
+        dailynotificationTime = notificationTimeDatabase.getNotificationTime().get(0).getNotificationTime();
 
 
         return rootView;
@@ -64,6 +78,11 @@ public class SetUpNotificationFragment extends Fragment {
 
         });
 
+
+        if(notificationTimeDatabase != null){
+
+            setUpNotificationTimeSetForTextView.setText("Daily notification time set for: \n"+ dailynotificationTime);
+        }
 
     }
 }

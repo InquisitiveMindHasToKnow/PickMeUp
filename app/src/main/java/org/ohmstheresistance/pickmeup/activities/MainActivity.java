@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TimePicker;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.database.NotificationTimeDatabase;
 import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
@@ -26,6 +27,7 @@ import org.ohmstheresistance.pickmeup.fragments.ShowAllQuotesFragment;
 import org.ohmstheresistance.pickmeup.fragments.ShowNotification;
 import org.ohmstheresistance.pickmeup.fragments.SplashScreenFragment;
 import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
+import org.ohmstheresistance.pickmeup.model.NotificationTime;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
 
+    NotificationTimeDatabase notificationTimeDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+
+        notificationTimeDatabase =  NotificationTimeDatabase.getInstance(getApplicationContext());
 
         calendar = Calendar.getInstance();
 
@@ -155,7 +161,11 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         String timeForNotification = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
         setUpNotificationTimeTextView.setText(timeForNotification);
         setUpNotificationTimeSetForTextView.setText("Daily notification set for: \n" + timeForNotification);
+
+        notificationTimeDatabase.updateNotificationTime(NotificationTime.from(timeForNotification));
     }
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {
