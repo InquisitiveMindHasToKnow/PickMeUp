@@ -32,6 +32,7 @@ import java.util.Calendar;
 
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.quoteTextView;
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.saidByTextView;
+import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeSetForTextView;
 import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeTextView;
 
 
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         String timeForNotification = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
         setUpNotificationTimeTextView.setText(timeForNotification);
+        setUpNotificationTimeSetForTextView.setText("Daily notification set for: \n" + timeForNotification);
     }
 
     @Override

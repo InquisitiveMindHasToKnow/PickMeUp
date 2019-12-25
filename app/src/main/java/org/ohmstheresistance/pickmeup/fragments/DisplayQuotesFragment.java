@@ -274,10 +274,9 @@ public class DisplayQuotesFragment extends Fragment {
 
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_fragment_container, fragment)
+                .addToBackStack("SetUpNotification")
                 .commit();
     }
-
-
 
     @Override
     public void onDetach() {

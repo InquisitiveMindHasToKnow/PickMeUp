@@ -23,6 +23,7 @@ public class SetUpNotificationFragment extends Fragment {
     private View rootView;
     private TextView setUpNotificationTextView;
     public static TextView setUpNotificationTimeTextView;
+    public static TextView setUpNotificationTimeSetForTextView;
     private Calendar calendar;
 
     public SetUpNotificationFragment() {
@@ -38,6 +39,7 @@ public class SetUpNotificationFragment extends Fragment {
 
         setUpNotificationTextView = rootView.findViewById(R.id.set_up_notification_textview);
         setUpNotificationTimeTextView = rootView.findViewById(R.id.set_up_notification_time_textview);
+        setUpNotificationTimeSetForTextView = rootView.findViewById(R.id.set_up_notification_time_set_for_textview);
 
         calendar = Calendar.getInstance();
 
@@ -61,5 +63,7 @@ public class SetUpNotificationFragment extends Fragment {
             }
 
         });
+
+
     }
 }
