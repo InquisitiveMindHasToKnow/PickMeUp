@@ -38,7 +38,7 @@ import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment
 import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeTextView;
 
 
-public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, TimePickerDialog.OnTimeSetListener, ComponentCallbacks2  {
+public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, TimePickerDialog.OnTimeSetListener {
 
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
@@ -185,14 +185,6 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
                 loadBeginningFragment();
             }
-        }
-    }
-
-    @Override
-    public void onTrimMemory(final int level) {
-        if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-
-            onNewIntent(getIntent());
         }
     }
 }

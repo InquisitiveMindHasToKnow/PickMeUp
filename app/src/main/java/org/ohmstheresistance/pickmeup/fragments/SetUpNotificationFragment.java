@@ -1,5 +1,9 @@
 package org.ohmstheresistance.pickmeup.fragments;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,11 +12,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.database.NotificationTimeDatabase;
 import org.ohmstheresistance.pickmeup.database.UserInfoDatabaseHelper;
+import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
 import org.ohmstheresistance.pickmeup.helpers.TimePickerFragment;
 import org.ohmstheresistance.pickmeup.model.NotificationTime;
 
@@ -27,6 +33,7 @@ public class SetUpNotificationFragment extends Fragment {
     private TextView setUpNotificationTextView;
     public static TextView setUpNotificationTimeTextView;
     public static TextView setUpNotificationTimeSetForTextView;
+    private Button cancelNotificationButton;
     private Calendar calendar;
 
     private NotificationTimeDatabase notificationTimeDatabase;
@@ -48,6 +55,7 @@ public class SetUpNotificationFragment extends Fragment {
         setUpNotificationTextView = rootView.findViewById(R.id.set_up_notification_textview);
         setUpNotificationTimeTextView = rootView.findViewById(R.id.set_up_notification_time_textview);
         setUpNotificationTimeSetForTextView = rootView.findViewById(R.id.set_up_notification_time_set_for_textview);
+        cancelNotificationButton = rootView.findViewById(R.id.cancel_daily_notification_button);
 
         calendar = Calendar.getInstance();
 
@@ -84,5 +92,20 @@ public class SetUpNotificationFragment extends Fragment {
             setUpNotificationTimeSetForTextView.setText("Daily notification time set for: \n"+ dailynotificationTime);
         }
 
+        cancelNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                Intent notificationIntent = new Intent(getContext(), AlertReceiver.class);
+                PendingIntent notificationPendingIntent = PendingIntent.getBroadcast(getContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                alarmManager.cancel(notificationPendingIntent);
+
+                setUpNotificationTimeSetForTextView.setText("Daily notifications are currently turned off.");
+            }
+        });
     }
+
+
 }
