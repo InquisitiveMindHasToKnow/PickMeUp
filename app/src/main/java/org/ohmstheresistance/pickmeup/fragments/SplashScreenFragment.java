@@ -82,7 +82,7 @@ public class SplashScreenFragment extends Fragment {
                 firstLaunchCheck.edit().putBoolean(KEY_PREFS_FIRST_LAUNCH, false).apply();
 
             }
-        }, 4000);
+        }, 2000);
 
 
             }else{
@@ -99,7 +99,7 @@ public class SplashScreenFragment extends Fragment {
                     fragmentTransaction.commit();
 
                 }
-            }, 4000);
+            }, 2000);
         }
     }
 }

@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.model.Quotes;
@@ -38,8 +41,9 @@ public class ShowNotification extends Fragment {
 
     private TextView notificationQuoteTextView;
     private TextView notificationQuoteSaidByTextView;
+    private ImageView showNotificationImageView;
 
-    List<Quotes>notificationQuotesList;
+    private List<Quotes>notificationQuotesList;
 
 
     public ShowNotification() {
@@ -55,7 +59,7 @@ public class ShowNotification extends Fragment {
 
         notificationQuoteTextView = rootView.findViewById(R.id.sent_notification_quote_textview);
         notificationQuoteSaidByTextView = rootView.findViewById(R.id.sent_notification_quote_said_by_textview);
-
+        showNotificationImageView = rootView.findViewById(R.id.show_notification_imageview);
 
         return rootView;
     }
@@ -65,6 +69,11 @@ public class ShowNotification extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getQuoteData();
+
+        Glide.with(ShowNotification.this)
+                .load(R.drawable.animatedflowers)
+                .into(showNotificationImageView);
+
 
     }
 
