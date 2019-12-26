@@ -3,7 +3,6 @@ package org.ohmstheresistance.pickmeup.activities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -189,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
             else{
 
                 loadBeginningFragment();
+                intent.putExtra("FromNotification", false);
             }
         }
     }
