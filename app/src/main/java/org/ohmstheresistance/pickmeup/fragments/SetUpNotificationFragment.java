@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import org.ohmstheresistance.pickmeup.R;
 import org.ohmstheresistance.pickmeup.database.NotificationTimeDatabase;
-import org.ohmstheresistance.pickmeup.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
 import org.ohmstheresistance.pickmeup.helpers.TimePickerFragment;
 import org.ohmstheresistance.pickmeup.model.NotificationTime;
@@ -33,12 +32,13 @@ public class SetUpNotificationFragment extends Fragment {
     private TextView setUpNotificationTextView;
     public static TextView setUpNotificationTimeTextView;
     public static TextView setUpNotificationTimeSetForTextView;
-    private Button cancelNotificationButton;
+    public static Button cancelNotificationButton;
     private Calendar calendar;
 
     private NotificationTimeDatabase notificationTimeDatabase;
     private String dailynotificationTime;
     private String currentTime;
+    private  String showIfNotificationsCanceled;
 
 
     public SetUpNotificationFragment() {
@@ -68,6 +68,8 @@ public class SetUpNotificationFragment extends Fragment {
 
         dailynotificationTime = notificationTimeDatabase.getNotificationTime().get(0).getNotificationTime();
 
+        showIfNotificationsCanceled = "Daily notifications are currently turned off.";
+
 
         return rootView;
     }
@@ -92,6 +94,13 @@ public class SetUpNotificationFragment extends Fragment {
             setUpNotificationTimeSetForTextView.setText("Daily notification time set for: \n"+ dailynotificationTime);
         }
 
+        if(dailynotificationTime.length() > 10){
+
+            setUpNotificationTimeSetForTextView.setText(showIfNotificationsCanceled);
+            cancelNotificationButton.setVisibility(View.INVISIBLE);
+        }
+
+
         cancelNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +111,9 @@ public class SetUpNotificationFragment extends Fragment {
 
                 alarmManager.cancel(notificationPendingIntent);
 
-                setUpNotificationTimeSetForTextView.setText("Daily notifications are currently turned off.");
+                notificationTimeDatabase.updateNotificationTime(NotificationTime.from(showIfNotificationsCanceled));
+                setUpNotificationTimeSetForTextView.setText(showIfNotificationsCanceled);
+                cancelNotificationButton.setVisibility(View.INVISIBLE);
             }
         });
     }
