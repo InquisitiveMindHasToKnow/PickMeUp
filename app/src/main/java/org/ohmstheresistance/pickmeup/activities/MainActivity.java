@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TimePicker;
 
 import org.ohmstheresistance.pickmeup.R;
@@ -34,6 +35,7 @@ import java.util.Calendar;
 
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.quoteTextView;
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.saidByTextView;
+import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.cancelNotificationButton;
 import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeSetForTextView;
 import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeTextView;
 
@@ -138,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         startAlarm(calendar);
         updateTimeText(calendar);
+
+        cancelNotificationButton.setVisibility(View.VISIBLE);
+
 
     }
 
