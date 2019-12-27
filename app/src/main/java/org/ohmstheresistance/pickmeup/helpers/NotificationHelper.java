@@ -35,9 +35,6 @@ public class NotificationHelper extends ContextWrapper {
 
         getManager().createNotificationChannel(channel);
 
-        channel.enableLights(true);
-        channel.setLightColor(Color.GREEN);
-        channel.enableVibration(true);
     }
 
     public NotificationManager getManager() {
