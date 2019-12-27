@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,6 +43,9 @@ public class SplashScreenFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_splash_screen, container, false);
 
         splashScreenTextView = rootView.findViewById(R.id.pick_me_up_splash_textview);
+
+        BottomNavigationView navBar = getActivity().findViewById(R.id.nav_view);
+        navBar.setVisibility(View.INVISIBLE);
 
 
         return rootView;

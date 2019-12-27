@@ -188,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
             else{
 
                 loadBeginningFragment();
-                intent.putExtra("FromNotification", false);
             }
         }
     }
