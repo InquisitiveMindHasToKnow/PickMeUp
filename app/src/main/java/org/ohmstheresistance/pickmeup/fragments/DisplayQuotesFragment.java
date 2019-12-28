@@ -123,6 +123,7 @@ public class DisplayQuotesFragment extends Fragment {
 
         quotesList = displayQuotesDatabase.getAllQuotes();
 
+
         Collections.shuffle(quotesList);
 
                 if (displayQuotesDatabase == null) {

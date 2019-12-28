@@ -26,8 +26,9 @@ import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
 import org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment;
 import org.ohmstheresistance.pickmeup.fragments.FavoriteMotivationalQuotes;
+import org.ohmstheresistance.pickmeup.fragments.NotificationTextDetails;
 import org.ohmstheresistance.pickmeup.fragments.ShowAllQuotesFragment;
-import org.ohmstheresistance.pickmeup.fragments.ShowNotification;
+import org.ohmstheresistance.pickmeup.fragments.ShowNotificationFragment;
 import org.ohmstheresistance.pickmeup.fragments.SplashScreenFragment;
 import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
 import org.ohmstheresistance.pickmeup.model.NotificationTime;
@@ -38,6 +39,7 @@ import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,7 +54,10 @@ import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment
 import static org.ohmstheresistance.pickmeup.fragments.SetUpNotificationFragment.setUpNotificationTimeTextView;
 
 
-public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, TimePickerDialog.OnTimeSetListener {
+public class MainActivity extends AppCompatActivity implements ChangeCardDisplayInterface, TimePickerDialog.OnTimeSetListener, NotificationTextDetails {
+
+    public static final String NOTIFICATION_QUOTE = "NOTIFICATION QUOTE";
+    public static final String NOTIFICATION_QUOTE_SAID_BY = "NOTIFICATION QUOTE SAID BY";
 
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
@@ -61,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     private DisplayQuotesDatabase displayQuotesDatabase;
 
     private List<Quotes> displayQuotesList;
+
+    private String notificationQuote;
+    private String notificationQuoteSaidBy;
 
 
     @Override
@@ -71,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
-        notificationTimeDatabase =  NotificationTimeDatabase.getInstance(getApplicationContext());
+        notificationTimeDatabase = NotificationTimeDatabase.getInstance(getApplicationContext());
         displayQuotesDatabase = DisplayQuotesDatabase.getInstance(getApplicationContext());
 
         calendar = Calendar.getInstance();
@@ -162,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
         cancelNotificationButton.setVisibility(View.VISIBLE);
 
+        chooseQuoteForNotification();
+
 
     }
 
@@ -190,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     }
 
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -201,11 +210,9 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
             if (notificationBoolean) {
 
-                Fragment fragment = new ShowNotification();
-                inflateFragment(fragment);
-            }
-
-            else{
+                NotificationTextDetails notificationTextDetails = (NotificationTextDetails) MainActivity.this;
+                notificationTextDetails.notificationQuoteAndSaidBy(notificationQuote, notificationQuoteSaidBy);
+            } else {
 
                 loadBeginningFragment();
             }
@@ -225,27 +232,9 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
 
                 displayQuotesList = response.body();
 
-                if (displayQuotesList == null) {
-                    Toast.makeText(getApplicationContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                addAllQuotesToDatabase();
 
-                int index = 0;
-
-                for (int i = 0; i <= displayQuotesList.size() - 1; i++){
-
-
-                    Quotes displayQuotes = displayQuotesList.get(index);
-
-                    String quote = displayQuotes.getQuote();
-                    String quoteSaidBy = displayQuotes.getSaidby();
-
-                    displayQuotesDatabase.addDisplayQuotes(Quotes.from(quote, quoteSaidBy));
-
-                    index++;
-                }
-
-
+                chooseQuoteForNotification();
 
             }
 
@@ -257,6 +246,61 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
             }
 
         });
+
+    }
+
+    private void addAllQuotesToDatabase(){
+
+
+        if (displayQuotesList == null) {
+            Toast.makeText(getApplicationContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        int index = 0;
+
+        for (int i = 0; i <= displayQuotesList.size() - 1; i++) {
+
+
+            Quotes displayQuotes = displayQuotesList.get(index);
+
+            String quote = displayQuotes.getQuote();
+            String quoteSaidBy = displayQuotes.getSaidby();
+
+            displayQuotesDatabase.addDisplayQuotes(Quotes.from(quote, quoteSaidBy));
+
+            index++;
+        }
+    }
+
+    private void chooseQuoteForNotification(){
+
+        Intent notificationIntent = new Intent(MainActivity.this, ShowNotificationFragment.class);
+        Bundle notificationBundle = new Bundle();
+
+        Collections.shuffle(displayQuotesList);
+
+        Quotes quoteToDisplay = displayQuotesList.get(21);
+
+        notificationQuote = quoteToDisplay.getQuote();
+        notificationQuoteSaidBy = quoteToDisplay.getSaidby();
+
+        notificationBundle.putString(NOTIFICATION_QUOTE, notificationQuote);
+        notificationBundle.putString(NOTIFICATION_QUOTE_SAID_BY, notificationQuoteSaidBy);
+
+        notificationIntent.putExtras(notificationBundle);
+
+
+    }
+
+    @Override
+    public void notificationQuoteAndSaidBy(String notificationQuote, String notificationQuoteSaidBy) {
+
+        ShowNotificationFragment showNotificationFragment = ShowNotificationFragment.getInstance(notificationQuote, notificationQuoteSaidBy);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_container, showNotificationFragment)
+                .commit();
 
     }
 }
