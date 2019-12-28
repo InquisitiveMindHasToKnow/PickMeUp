@@ -3,7 +3,6 @@ package org.ohmstheresistance.pickmeup.recyclerview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +11,6 @@ import org.ohmstheresistance.pickmeup.database.FavoriteQuotesDatabase;
 import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.model.Quotes;
 
-import java.util.List;
-
 
 public class QuotesViewHolder extends RecyclerView.ViewHolder {
 
@@ -21,8 +18,6 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
     private TextView upcomingOrFavoriteQuoteSaidByTextView;
     public ImageView favoriteUnfavoriteImageView;
     private FavoriteQuotesDatabase favoriteQuotesDatabase;
-
-    private List<Quotes> faveQuoteList;
 
 
     public QuotesViewHolder(@NonNull View itemView) {
@@ -33,7 +28,6 @@ public class QuotesViewHolder extends RecyclerView.ViewHolder {
         favoriteUnfavoriteImageView = itemView.findViewById(R.id.favorite_unfavorite_imageview);
         favoriteQuotesDatabase = FavoriteQuotesDatabase.getInstance(itemView.getContext());
 
-        faveQuoteList = favoriteQuotesDatabase.getFavorites();
     }
 
     public void onBind(final Quotes quotes) {

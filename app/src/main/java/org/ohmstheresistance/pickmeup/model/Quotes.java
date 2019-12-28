@@ -34,6 +34,8 @@ public class Quotes {
     public String toString() {
         return "Quote{" +
                 "favorite_quote=" + quote +
+                "display_quote=" + quote +
+                "display_quote_said_by=" + saidby+
                 ", favorite_quote_said_by='" +saidby + '\'' +
                 '}';
     }
