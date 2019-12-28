@@ -31,23 +31,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.database.DisplayQuotesDatabase;
 import org.ohmstheresistance.pickmeup.database.UserInfoDatabaseHelper;
 import org.ohmstheresistance.pickmeup.model.Quotes;
 import org.ohmstheresistance.pickmeup.model.UserInfo;
-import org.ohmstheresistance.pickmeup.network.QuotesService;
-import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 import org.ohmstheresistance.pickmeup.recyclerview.QuotesAdapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class DisplayQuotesFragment extends Fragment {
 
@@ -67,6 +60,7 @@ public class DisplayQuotesFragment extends Fragment {
 
     private String usersName;
     private UserInfoDatabaseHelper userInfoDatabaseHelper;
+    private DisplayQuotesDatabase displayQuotesDatabase;
     private MenuItem menuItem;
 
     public DisplayQuotesFragment() {
@@ -90,6 +84,7 @@ public class DisplayQuotesFragment extends Fragment {
         upcomingQuotesRecyclerView = rootView.findViewById(R.id.upcoming_quotes_recycler_view);
 
         userInfoDatabaseHelper = UserInfoDatabaseHelper.getInstance(getContext());
+        displayQuotesDatabase = DisplayQuotesDatabase.getInstance(getContext());
 
         return rootView;
     }
@@ -104,7 +99,7 @@ public class DisplayQuotesFragment extends Fragment {
         userNameTextView.setText(usersName + "!");
 
 
-        getQuoteData();
+        getQuoteDataFromDatabase();
 
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
@@ -122,25 +117,15 @@ public class DisplayQuotesFragment extends Fragment {
             greetingTextView.setText(getString(R.string.good_night));
         }
 
-
     }
 
+    private void getQuoteDataFromDatabase() {
 
-    private void getQuoteData() {
+        quotesList = displayQuotesDatabase.getAllQuotes();
 
-        quotesList = new ArrayList<>();
+        Collections.shuffle(quotesList);
 
-        Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
-        QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
-        quotesService.getQuotes().enqueue(new Callback<List<Quotes>>() {
-
-            @Override
-            public void onResponse(Call<List<Quotes>> call, Response<List<Quotes>> response) {
-
-                quotesList = response.body();
-                Collections.shuffle(quotesList);
-
-                if (quotesList == null) {
+                if (displayQuotesDatabase == null) {
                     Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -161,19 +146,8 @@ public class DisplayQuotesFragment extends Fragment {
 
                 changeQuote();
 
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Quotes>> call, Throwable t) {
-
-                Toast.makeText(getContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Quote Retrofit Call Failed: " + t.getMessage());
-            }
-
-        });
-
     }
+
 
 
     private void changeQuote() {
@@ -199,7 +173,7 @@ public class DisplayQuotesFragment extends Fragment {
                 });
                 quoteCardObjectAnimator.start();
 
-                getQuoteData();
+                getQuoteDataFromDatabase();
             }
         }, 60000);
     }

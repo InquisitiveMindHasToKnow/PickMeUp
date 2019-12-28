@@ -13,11 +13,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.ohmstheresistance.pickmeup.R;
+import org.ohmstheresistance.pickmeup.database.DisplayQuotesDatabase;
 import org.ohmstheresistance.pickmeup.database.NotificationTimeDatabase;
 import org.ohmstheresistance.pickmeup.fragments.ChangeCardDisplayInterface;
 import org.ohmstheresistance.pickmeup.fragments.CreateYourOwnMotivationFragment;
@@ -28,9 +31,19 @@ import org.ohmstheresistance.pickmeup.fragments.ShowNotification;
 import org.ohmstheresistance.pickmeup.fragments.SplashScreenFragment;
 import org.ohmstheresistance.pickmeup.helpers.AlertReceiver;
 import org.ohmstheresistance.pickmeup.model.NotificationTime;
+import org.ohmstheresistance.pickmeup.model.Quotes;
+import org.ohmstheresistance.pickmeup.network.QuotesService;
+import org.ohmstheresistance.pickmeup.network.RetrofitSingleton;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.quoteTextView;
 import static org.ohmstheresistance.pickmeup.fragments.DisplayQuotesFragment.saidByTextView;
@@ -44,7 +57,11 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
     private BottomNavigationView bottomNavigationView;
     Calendar calendar;
 
-    NotificationTimeDatabase notificationTimeDatabase;
+    private NotificationTimeDatabase notificationTimeDatabase;
+    private DisplayQuotesDatabase displayQuotesDatabase;
+
+    private List<Quotes> displayQuotesList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +72,15 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
         notificationTimeDatabase =  NotificationTimeDatabase.getInstance(getApplicationContext());
+        displayQuotesDatabase = DisplayQuotesDatabase.getInstance(getApplicationContext());
 
         calendar = Calendar.getInstance();
 
         onNewIntent(getIntent());
 
         loadBeginningFragment();
+
+        getDisplayQuoteData();
 
     }
 
@@ -190,5 +210,53 @@ public class MainActivity extends AppCompatActivity implements ChangeCardDisplay
                 loadBeginningFragment();
             }
         }
+    }
+
+    private void getDisplayQuoteData() {
+
+        displayQuotesList = new ArrayList<>();
+
+        Retrofit quotesRetrofit = RetrofitSingleton.getRetrofitInstance();
+        QuotesService quotesService = quotesRetrofit.create(QuotesService.class);
+        quotesService.getQuotes().enqueue(new Callback<List<Quotes>>() {
+
+            @Override
+            public void onResponse(Call<List<Quotes>> call, Response<List<Quotes>> response) {
+
+                displayQuotesList = response.body();
+
+                if (displayQuotesList == null) {
+                    Toast.makeText(getApplicationContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                int index = 0;
+
+                for (int i = 0; i <= displayQuotesList.size() - 1; i++){
+
+
+                    Quotes displayQuotes = displayQuotesList.get(index);
+
+                    String quote = displayQuotes.getQuote();
+                    String quoteSaidBy = displayQuotes.getSaidby();
+
+                    displayQuotesDatabase.addDisplayQuotes(Quotes.from(quote, quoteSaidBy));
+
+                    index++;
+                }
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Quotes>> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "Quote Retrofit Call Failed", Toast.LENGTH_LONG).show();
+                Log.d("DISPLAY ALL QUOTES", "Quote Retrofit Call Failed: " + t.getMessage());
+            }
+
+        });
+
     }
 }
